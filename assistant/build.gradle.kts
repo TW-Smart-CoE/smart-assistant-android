@@ -34,7 +34,7 @@ dependencies {
     implementation("xerces:xercesImpl:2.12.0")
 
     implementation(files("libs/fastjson-1.1.46.android.jar"))
-    implementation(files("libs/nuisdk-release.aar"))
+    implementation("com.thoughtworks.smart-assistant:nuisdk:0.1.0")
 
     testImplementation(libs.junit4)
     testImplementation(libs.androidx.junit.ktx)
@@ -47,4 +47,28 @@ dependencies {
     androidTestImplementation(libs.truth)
 
     detektPlugins(libs.detekt.formatting)
+}
+
+apply(plugin = "maven-publish")
+
+configure<PublishingExtension> {
+    publications {
+        create<MavenPublication>("assistant") {
+            afterEvaluate {
+                from(components.getByName("devRelease"))
+                groupId = "com.thoughtworks.smart-assistant"
+                version = "0.1.0"
+            }
+        }
+    }
+
+    // 上传ali tts aar 到maven
+    publications {
+        create<MavenPublication>("alitts") {
+            groupId = "com.thoughtworks.smart-assistant"
+            version = "0.1.0"
+            artifactId = "nuisdk"
+            artifact(file("libs/nuisdk-release.aar"))
+        }
+    }
 }

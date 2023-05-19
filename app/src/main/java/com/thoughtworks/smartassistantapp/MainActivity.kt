@@ -22,6 +22,11 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 aliTts.play("hello world")
             }
+
+            lifecycleScope.launch {
+                val file = aliTts.createAudioFile("hello world")
+                println(file)
+            }
         }
     }
 }

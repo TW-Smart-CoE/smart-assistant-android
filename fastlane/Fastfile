@@ -1,0 +1,117 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  desc "Build an app for dev env"
+  lane :build_dev do
+    gradle(task: "clean assembleDevDebug")
+    notification_options = {
+      :message => "Finished #{lane_context[SharedValues::LANE_NAME]} on #{Time.new.to_s}"
+    }
+    notify_message(notification_options)
+  end
+
+  desc "Build an app for uat env"
+  lane :build_uat do
+    gradle(task: "assembleUatRelease")
+    notification_options = {
+      :message => "Finished #{lane_context[SharedValues::LANE_NAME]} on #{Time.new.to_s}"
+    }
+    notify_message(notification_options)
+  end
+
+  desc "Build an app for staging env"
+  lane :build_staging do
+    gradle(task: "assembleStagingRelease")
+    release_to_test_channel({
+      :apks => lane_context[SharedValues::GRADLE_ALL_APK_OUTPUT_PATHS]
+    })
+    notification_options = {
+      :message => "Finished #{lane_context[SharedValues::LANE_NAME]} on #{Time.new.to_s}"
+    }
+    notify_message(notification_options)
+  end
+
+  desc "Build an app for prod env"
+  lane :build_prod do
+    gradle(task: "assembleProdRelease")
+    notification_options = {
+      :message => "Finished #{lane_context[SharedValues::LANE_NAME]} on #{Time.new.to_s}"
+    }
+    notify_message(notification_options)
+  end
+
+  desc "Runs all the static check"
+  lane :check do
+    gradle(task: "detekt")
+  end
+
+  desc "Runs all the unit tests"
+  lane :unit_test do
+    gradle(task: "devDebugCoverage")
+  end
+
+  desc "Deploy on Fir.im"
+  private_lane :release_to_test_channel do |options|
+    apks = options[:apks]
+    if apks != nil && !apks.empty?
+      apks.each do |apk|
+        fir_cli api_token: ENV["FIR_TOKEN"], specify_file_path: apk
+      end
+    else
+      puts "no available apks"
+    end
+  end
+
+  desc "Notify message to user"
+  private_lane :notify_message do |options|
+    if is_ci
+      notification_slack(options)
+    else
+      notification_mac(options)
+    end
+  end
+
+  private_lane :notification_mac do |options|
+    notification(subtitle: "Finished Building", message: options[:message])
+  end
+
+  private_lane :notification_slack do |options|
+    # For security, we put this value to env.
+    # You can find this value in ".env.default" file
+    slack_url = ENV["SLACK_URL"]
+    if slack_url.nil? || slack_url.empty?
+      puts "[Warning] No slack url setup"
+    else
+      slack(
+        slack_url: slack_url,
+        message: options[:message],
+        success: true,
+        payload: {
+          "Build Date" => Time.new.to_s,
+          "Built by" => "Jenkins",
+        },
+        default_payloads: [:git_branch, :git_author]
+      )
+    end
+  end
+
+  before_all do |lane|
+    sh "export LC_ALL=en_US.UTF-8"
+    sh "export LANG=en_US.UTF-8"
+  end
+end

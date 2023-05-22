@@ -1,20 +1,19 @@
-package com.thoughtworks.assistant.impl.ali
+package com.thoughtworks.assistant.tts.ali
 
-import com.thoughtworks.assistant.impl.ali.AliTtsConstant.DEFAULT_MODE
-import com.thoughtworks.assistant.impl.ali.AliTtsConstant.DEFAULT_URL
+import com.thoughtworks.assistant.tts.ali.AliTtsConstant.DEFAULT_MODE
+import com.thoughtworks.assistant.tts.ali.AliTtsConstant.DEFAULT_URL
 import org.json.JSONObject
 
 data class AliTtsConfig(
     val accessKey: String = "",
     val accessKeySecret: String = "",
     val appKey: String = "",
+    var deviceId: String = "",
+    var workspace: String = "",
+    var token: String = "",
     val modeType: Int = DEFAULT_MODE,
     val url: String = DEFAULT_URL,
 ) {
-    var deviceId: String = ""
-    var workspace: String = ""
-    var token: String = ""
-
     fun toTicket(): String {
         if (appKey.isEmpty() || token.isEmpty()) {
             return ""

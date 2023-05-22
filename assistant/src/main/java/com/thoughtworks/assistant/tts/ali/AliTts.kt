@@ -1,9 +1,7 @@
-package com.thoughtworks.assistant
+package com.thoughtworks.assistant.tts.ali
 
 import android.content.Context
-import com.thoughtworks.assistant.impl.ali.AliTtsCreator
-import com.thoughtworks.assistant.impl.ali.AliTtsFileSaver
-import com.thoughtworks.assistant.impl.ali.AliTtsPlayer
+import com.thoughtworks.assistant.tts.Tts
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
@@ -11,21 +9,27 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import java.io.File
 
-class AliTts(private val context: Context) : Tts {
-    private val aliTtsCreator = AliTtsCreator()
+class AliTts(private val context: Context, params: Map<String, String>) : Tts {
+    init {
+        AliTtsInitializer.init(context)
+    }
 
-    override suspend fun createAudioFile(text: String): File {
-        val ttsFileSaver = AliTtsFileSaver(context)
-        val file = ttsFileSaver.getFile()
+    private val aliTtsCreator = AliTtsCreator(params)
 
-        file.outputStream().use { out ->
+    override suspend fun createAudioFile(text: String, fileName: String): File {
+        val savePath = File(context.cacheDir, AliTtsConstant.DEFAULT_FILE_SAVE_DIR)
+        if (!savePath.exists()) {
+            savePath.mkdirs()
+        }
+        val saveFile = File(savePath, fileName)
+        saveFile.outputStream().use { out ->
             aliTtsCreator.create(text)
                 .onEach { out.write(it.data) }
                 .flowOn(Dispatchers.IO)
                 .collect()
         }
 
-        return file
+        return saveFile
     }
 
     override suspend fun play(text: String) {

@@ -1,11 +1,10 @@
-package com.thoughtworks.assistant.impl.ali
+package com.thoughtworks.assistant.tts.ali
 
 import android.util.Log
 import com.alibaba.idst.nui.Constants
 import com.alibaba.idst.nui.INativeTtsCallback
 import com.alibaba.idst.nui.NativeNui
-import com.thoughtworks.assistant.impl.ali.AliTtsConstant.TAG
-import com.thoughtworks.assistant.interfaces.TtsCreator
+import com.thoughtworks.assistant.tts.ali.AliTtsConstant.TAG
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -13,7 +12,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import java.util.*
 
-class AliTtsCreator : TtsCreator<AliTtsData> {
+class AliTtsCreator(private val params: Map<String, String>) {
     private var isInit = false
     private val ttsInstance = NativeNui(Constants.ModeType.MODE_TTS)
     private val ttsTaskMap = mutableMapOf<String, Channel<AliTtsData>>()
@@ -22,17 +21,12 @@ class AliTtsCreator : TtsCreator<AliTtsData> {
     init {
         AliTtsInitializer.coroutineScope.launch {
             AliTtsInitializer.initJob?.join()
-            if (!AliTtsInitializer.isInit) {
-                throw IllegalStateException("Should call AliTtsInitializer.init() first!")
-            }
             initTTSInstance()
         }
     }
 
     private fun initTTSInstance() {
-        val ticket = AliTtsInitializer.config.toTicket()
-        val params = AliTtsInitializer.params.toParams()
-
+        val ticket = AliTtsInitializer.ttsConfig.toTicket()
         val initResult = ttsInstance.tts_initialize(
             object : INativeTtsCallback {
                 override fun onTtsEventCallback(
@@ -74,16 +68,21 @@ class AliTtsCreator : TtsCreator<AliTtsData> {
         )
 
         if (initResult == Constants.NuiResultCode.SUCCESS) {
-            params.forEach {
+            val ttsParams = AliTtsInitializer.ttsParams.toParams(params)
+            ttsParams.forEach {
                 ttsInstance.setparamTts(it.key, it.value)
             }
             isInit = true
         }
     }
 
-    override fun create(text: String): Flow<AliTtsData> {
+    suspend fun create(text: String): Flow<AliTtsData> {
+        if (!isInit) {
+            AliTtsInitializer.initJob?.join()
+            initTTSInstance()
+        }
+
         if (text.isEmpty()) return emptyFlow()
-        if (!isInit) return emptyFlow()
 
         val channel = Channel<AliTtsData>(Channel.UNLIMITED)
         val taskId = UUID.randomUUID().toString().replace("-", "")
@@ -98,7 +97,7 @@ class AliTtsCreator : TtsCreator<AliTtsData> {
         return channel.consumeAsFlow()
     }
 
-    override fun release() {
+    fun release() {
         ttsInstance.release()
     }
 

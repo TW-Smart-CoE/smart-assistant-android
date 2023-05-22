@@ -68,23 +68,13 @@ dependencyResolutionManagement {
         maven("https://jitpack.io")
         mavenLocal()
 
-        if (readConfig("MAVEN_REPO").isNotEmpty()) {
-            maven {
-                url = uri(readConfig("MAVEN_REPO"))
-                isAllowInsecureProtocol = true
-                credentials {
-                    username = readConfig("MAVEN_USER")
-                    password = readConfig(("MAVEN_PWD"))
-                }
+        maven {
+            url = uri("http://10.205.215.4:8081/repository/maven-releases/")
+            isAllowInsecureProtocol = true
+            credentials {
+                username = "admin"
+                password = "IoT1234"
             }
-        } else {
-            System.err.println("Please config your private Maven repo!")
-        }
-    }
-
-    versionCatalogs {
-        create("libs") {
-            from("io.github.ssseasonnn:VersionCatalog:0.0.3")
         }
     }
 }

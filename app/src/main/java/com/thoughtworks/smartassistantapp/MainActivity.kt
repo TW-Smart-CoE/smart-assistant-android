@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.thoughtworks.assistant.AliTts
+import com.thoughtworks.assistant.SmartAssistant
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -16,15 +16,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_main)
 
-        val aliTts = AliTts(this)
+        val smartAssistant = SmartAssistant(this)
+        val tts = smartAssistant.getTts()
 
         findViewById<Button>(R.id.btn_click).setOnClickListener {
             lifecycleScope.launch {
-                aliTts.play("hello world")
+                tts.play("hello world")
             }
 
             lifecycleScope.launch {
-                val file = aliTts.createAudioFile("hello world")
+                val file = tts.createAudioFile("hello world", "file.pcm")
                 println(file)
             }
         }

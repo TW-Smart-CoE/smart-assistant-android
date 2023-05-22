@@ -1,4 +1,4 @@
-package com.thoughtworks.assistant.impl.ali
+package com.thoughtworks.assistant.tts.ali
 
 import android.media.AudioAttributes
 import android.media.AudioFormat
@@ -8,7 +8,7 @@ import android.media.AudioTrack
 class AliTtsPlayer {
     var audioTrack: AudioTrack? = null
 
-    private val sampleRate = AliTtsInitializer.params.sampleRate
+    private val sampleRate = AliTtsInitializer.ttsParams.sampleRate
     private val minBufferSize = AudioTrack.getMinBufferSize(
         sampleRate,
         AudioFormat.CHANNEL_OUT_MONO,
@@ -41,6 +41,10 @@ class AliTtsPlayer {
         audioTrack?.play()
     }
 
+    fun writeData(data: ByteArray) {
+        audioTrack?.write(data, 0, data.size)
+    }
+
     fun release() {
         audioTrack?.apply {
             flush()
@@ -48,9 +52,5 @@ class AliTtsPlayer {
             stop()
         }
         audioTrack = null
-    }
-
-    fun writeData(data: ByteArray) {
-        audioTrack?.write(data, 0, data.size)
     }
 }

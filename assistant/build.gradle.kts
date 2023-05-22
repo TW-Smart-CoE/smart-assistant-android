@@ -33,7 +33,7 @@ dependencies {
     implementation("com.sun.xml.bind:jaxb-impl:2.3.0")
     implementation("xerces:xercesImpl:2.12.0")
 
-    implementation(files("libs/fastjson-1.1.46.android.jar"))
+    implementation("com.alibaba:fastjson:1.1.46.android")
     implementation("com.thoughtworks.smart-assistant:nuisdk:0.1.0")
 
     testImplementation(libs.junit4)
@@ -53,6 +53,17 @@ apply(plugin = "maven-publish")
 
 configure<PublishingExtension> {
     publications {
+        repositories {
+            maven {
+                url = uri("http://10.205.215.4:8081/repository/maven-releases/")
+                isAllowInsecureProtocol = true
+                credentials {
+                    username = "admin"
+                    password = "IoT1234"
+                }
+            }
+        }
+
         create<MavenPublication>("assistant") {
             afterEvaluate {
                 from(components.getByName("devRelease"))

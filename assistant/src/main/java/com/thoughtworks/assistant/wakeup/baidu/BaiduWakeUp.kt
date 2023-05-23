@@ -1,6 +1,7 @@
 package com.thoughtworks.assistant.wakeup.baidu
 
 import android.content.Context
+import android.util.Log
 import com.baidu.speech.EventListener
 import com.baidu.speech.EventManager
 import com.baidu.speech.EventManagerFactory
@@ -19,6 +20,7 @@ class BaiduWakeUp(private val context: Context, private val params: Map<String, 
         EventListener { name, params, data, offset, length ->
             when (name) {
                 SpeechConstant.CALLBACK_EVENT_WAKEUP_SUCCESS -> {
+                    Log.d("MainActivity", "wakeup success")
                     val result = WakeUpResult.parseJson(name, params)
                     if (result == null) {
                         wakeUpListener?.onError(-1, "parse json error")
@@ -28,12 +30,14 @@ class BaiduWakeUp(private val context: Context, private val params: Map<String, 
                 }
 
                 SpeechConstant.CALLBACK_EVENT_WAKEUP_ERROR -> {
-                    val errorCode = JSONObject(params).optInt("errorCode")
-                    val errorMessage = JSONObject(params).optString("errorMessage")
+                    Log.d("MainActivity", "wakeup error$params")
+                    val errorCode = JSONObject(params).optInt("error")
+                    val errorMessage = JSONObject(params).optString("desc")
                     wakeUpListener?.onError(errorCode, errorMessage)
                 }
 
                 SpeechConstant.CALLBACK_EVENT_WAKEUP_STOPED -> {
+                    Log.d("MainActivity", "wakeup stop")
                     wakeUpListener?.onStop()
                 }
             }

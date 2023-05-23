@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Smart-Assistant</string>
+    <string name="test">测试</string>
+    <string name="start_wakeup">启动唤醒</string>
+    <string name="stop_wakeup">停止唤醒</string>
 </resources>

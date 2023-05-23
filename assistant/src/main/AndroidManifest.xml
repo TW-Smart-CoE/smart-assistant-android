@@ -19,12 +19,12 @@
             android:value="tLuhZZn2xrMQnsHB" />
         <meta-data
             android:name="BAIDU_IVS_APP_ID"
-            android:value="33849461" />
+            android:value="\33893618" />
         <meta-data
             android:name="BAIDU_IVS_API_KEY"
-            android:value="kvNjPQYO678caqwFTflTlIwL" />
+            android:value="HorySKPtlNWEZCZDXrhhUcEI" />
         <meta-data
             android:name="BAIDU_IVS_SECRET_KEY"
-            android:value="fwLUpxDCvp6XHGhqdkE5XcneSsmFlaEz" />
+            android:value="tPwTNWNR0YgutwwxcLf2eH6wcmQFE7x3" />
     </application>
 </manifest>

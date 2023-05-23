@@ -10,5 +10,19 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_marginTop="50dp"
-        android:text="测试" />
+        android:text="@string/test" />
+    <Button
+        android:id="@+id/btn_start_wakeup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/start_wakeup" />
+    <Button
+        android:id="@+id/btn_stop_wakeup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/stop_wakeup" />
 </LinearLayout>

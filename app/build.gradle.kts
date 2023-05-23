@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.kapt)
     alias(libs.plugins.hilt)
     alias(libs.plugins.detekt)
-    alias(libs.plugins.router)
+//    alias(libs.plugins.router)
 }
 
 apply(from = "../config/jacoco/modules.kts")
@@ -22,11 +22,22 @@ androidApplication {
         applicationId = "com.thoughtworks.smartassistantapp"
         versionCode = 1
         versionName = "1.0.0"
+        minSdk = 22
+
+        ndk {
+            abiFilters.add("armeabi")
+            abiFilters.add("armeabi-v7a")
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     enableCompose()
+
+    packagingOptions {
+        doNotStrip("*/*/libvad.dnn.so")
+        doNotStrip("*/*/libbd_easr_s1_merge_normal_20151216.dat.so")
+    }
 }
 
 dependencies {
@@ -38,8 +49,8 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 
-    implementation(libs.router)
-    kapt(libs.router.compiler)
+//    implementation(libs.router)
+//    kapt(libs.router.compiler)
 
     implementation(libs.bundles.coil)
 

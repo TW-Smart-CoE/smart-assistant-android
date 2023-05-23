@@ -12,6 +12,15 @@ apply(from = "../config/jacoco/modules.kts")
 
 androidLibrary {
     namespace = "com.thoughtworks.assistant"
+
+    defaultConfig {
+        minSdk = 22
+    }
+
+    packagingOptions {
+        doNotStrip("*/*/libvad.dnn.so")
+        doNotStrip("*/*/libbd_easr_s1_merge_normal_20151216.dat.so")
+    }
 }
 
 dependencies {

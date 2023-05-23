@@ -68,12 +68,12 @@ configure<PublishingExtension> {
             afterEvaluate {
                 from(components.getByName("devRelease"))
                 groupId = "com.thoughtworks.smart-assistant"
-                version = "0.1.0"
+                version = "0.1.1"
             }
         }
     }
 
-    // 上传ali tts aar 到maven
+    // 上传ali tts aar 到maven，执行`./gradlew publishAlittsPublicationToMavenRepository`
     publications {
         create<MavenPublication>("alitts") {
             groupId = "com.thoughtworks.smart-assistant"

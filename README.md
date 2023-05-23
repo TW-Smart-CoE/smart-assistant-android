@@ -18,7 +18,7 @@ maven {
 }
 
 // add dependency
-implementation("com.thoughtworks.smart-assistant:assistant:0.1.0")
+implementation("com.thoughtworks.smart-assistant:assistant:0.1.1")
 ```
 
 2. create tts object:

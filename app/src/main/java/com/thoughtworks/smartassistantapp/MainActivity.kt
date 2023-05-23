@@ -2,10 +2,13 @@
 
 package com.thoughtworks.smartassistantapp
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.thoughtworks.assistant.SmartAssistant
 import com.thoughtworks.assistant.tts.Tts
@@ -19,6 +22,63 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity() {
     lateinit var tts: Tts
     lateinit var wakeUp: WakeUp
+
+    private val permissions = arrayOf(
+        android.Manifest.permission.RECORD_AUDIO,
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
+
+    private fun requestPermissions() {
+        val permissionList = mutableListOf<String>()
+
+        for (permission in permissions) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                permissionList.add(permission)
+            }
+        }
+
+        if (permissionList.isEmpty()) {
+            performAction()
+        } else {
+            ActivityCompat.requestPermissions(this, permissionList.toTypedArray(), REQUEST_CODE)
+        }
+    }
+
+    private fun performAction() {
+        // 执行相应操作
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == REQUEST_CODE) {
+            var allPermissionsGranted = true
+
+            for (result in grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false
+                    break
+                }
+            }
+
+            if (allPermissionsGranted) {
+                // 用户授予了所有权限，执行相应操作
+                performAction()
+            } else {
+                // 用户拒绝了某些权限，可以显示一个提示或采取其他适当的措施
+            }
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +126,8 @@ class MainActivity : AppCompatActivity() {
                 wakeUp.stop()
             }
         }
+
+        requestPermissions()
     }
 
     override fun onDestroy() {
@@ -80,5 +142,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
+        private const val REQUEST_CODE = 1
     }
 }

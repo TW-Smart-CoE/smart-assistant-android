@@ -29,6 +29,7 @@ androidLibrary {
     }
 
     packagingOptions {
+        // baidu libs
         jniLibs.keepDebugSymbols.add("*/*/libvad.dnn.so")
         jniLibs.keepDebugSymbols.add("*/*/libbd_easr_s1_merge_normal_20151216.dat.so")
     }
@@ -39,6 +40,7 @@ dependencies {
     implementation(libs.bundles.android)
 
     api(fileTree("libs") { include("**/*.jar") })
+    // ali libs
     implementation("com.aliyun:aliyun-java-sdk-core:3.7.1")
     implementation("com.alibaba.nls:nls-sdk-common:2.1.6") {
         exclude(group = "com.alibaba", module = "fastjson")

@@ -17,5 +17,14 @@
         <meta-data
             android:name="ALI_TTS_APP_KEY"
             android:value="tLuhZZn2xrMQnsHB" />
+        <meta-data
+            android:name="BAIDU_IVS_APP_ID"
+            android:value="33849461" />
+        <meta-data
+            android:name="BAIDU_IVS_API_KEY"
+            android:value="kvNjPQYO678caqwFTflTlIwL" />
+        <meta-data
+            android:name="BAIDU_IVS_SECRET_KEY"
+            android:value="fwLUpxDCvp6XHGhqdkE5XcneSsmFlaEz" />
     </application>
 </manifest>

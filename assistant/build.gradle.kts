@@ -18,6 +18,7 @@ dependencies {
     implementation(libs.bundles.kotlin)
     implementation(libs.bundles.android)
 
+    api(fileTree("libs") { include("**/*.jar") })
     implementation("com.aliyun:aliyun-java-sdk-core:3.7.1")
     implementation("com.alibaba.nls:nls-sdk-common:2.1.6") {
         exclude(group = "com.alibaba", module = "fastjson")

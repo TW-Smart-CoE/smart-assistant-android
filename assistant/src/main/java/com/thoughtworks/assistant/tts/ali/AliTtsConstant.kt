@@ -13,11 +13,17 @@ object AliTtsConstant {
     const val DEFAULT_MODE = 2 // 在线合成
 
     // 语音设置
-    const val ENABLE_SUBTITLE = "1"
-    const val DEFAULT_FONT_NAME = "siqi"
-    const val DEFAULT_SAMPLE_RATE = 16000
-    const val DEFAULT_ENCODE_TYPE = "pcm"
+    const val ENABLE_SUBTITLE = "1" // 字级别音素边界功能开关
+    const val DEFAULT_FONT_NAME = "siqi" // 发音人
+    const val DEFAULT_SAMPLE_RATE = 16000 // 音频采样率
+    const val DEFAULT_ENCODE_TYPE = "pcm" // 音频编码格式
 
     // 保存路径
     const val DEFAULT_FILE_SAVE_DIR = "ali_tts"
+
+    // SP KEY
+    const val SP_ACCESS_TOKEN_KEY = "key_access_token"
+    const val SP_EXPIRE_TIME_KEY = "key_expire_time"
+
+    const val MILL_SECONDS = 1000
 }

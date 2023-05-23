@@ -3,8 +3,8 @@ package com.thoughtworks.assistant.utils
 import android.content.Context
 import androidx.core.content.edit
 
-class SpUtils(val context: Context) {
-    private val sp = context.getSharedPreferences(SP_FILE, Context.MODE_PRIVATE)
+class SpUtils(context: Context, fileName: String = DEFAULT_SP_FILE) {
+    private val sp = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
 
     fun saveStr(key: String, value: String) {
         sp.edit {
@@ -27,6 +27,6 @@ class SpUtils(val context: Context) {
     }
 
     companion object {
-        const val SP_FILE = "share_preference"
+        const val DEFAULT_SP_FILE = "share_preference"
     }
 }

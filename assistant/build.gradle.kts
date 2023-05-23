@@ -15,11 +15,22 @@ androidLibrary {
 
     defaultConfig {
         minSdk = 22
+
+        ndk {
+            abiFilters.add("armeabi")
+            abiFilters.add("armeabi-v7a")
+        }
+    }
+
+    sourceSets {
+        named("main") {
+            jniLibs.srcDirs("src/main/jniLibs/baidu")
+        }
     }
 
     packagingOptions {
-        doNotStrip("*/*/libvad.dnn.so")
-        doNotStrip("*/*/libbd_easr_s1_merge_normal_20151216.dat.so")
+        jniLibs.keepDebugSymbols.add("*/*/libvad.dnn.so")
+        jniLibs.keepDebugSymbols.add("*/*/libbd_easr_s1_merge_normal_20151216.dat.so")
     }
 }
 

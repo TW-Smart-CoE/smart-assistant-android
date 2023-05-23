@@ -24,20 +24,10 @@ androidApplication {
         versionName = "1.0.0"
         minSdk = 22
 
-        ndk {
-            abiFilters.add("armeabi")
-            abiFilters.add("armeabi-v7a")
-        }
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     enableCompose()
-
-    packagingOptions {
-        doNotStrip("*/*/libvad.dnn.so")
-        doNotStrip("*/*/libbd_easr_s1_merge_normal_20151216.dat.so")
-    }
 }
 
 dependencies {

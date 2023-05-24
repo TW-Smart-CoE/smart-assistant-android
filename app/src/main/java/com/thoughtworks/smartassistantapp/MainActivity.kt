@@ -16,6 +16,7 @@ import com.thoughtworks.assistant.wakeup.WakeUp
 import com.thoughtworks.assistant.wakeup.WakeUpListener
 import com.thoughtworks.assistant.wakeup.WakeUpType
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -92,21 +93,24 @@ class MainActivity : AppCompatActivity() {
         )
 
         findViewById<Button>(R.id.btn_click).setOnClickListener {
-            lifecycleScope.launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 tts.play("hello world")
             }
 
-            lifecycleScope.launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 val file = tts.createAudioFile("hello world", "file.pcm")
                 Log.d(TAG, file.absolutePath)
             }
         }
 
         findViewById<Button>(R.id.btn_start_wakeup).setOnClickListener {
-            lifecycleScope.launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 wakeUp.setWakeUpListener(object : WakeUpListener {
                     override fun onSuccess(word: String) {
                         Log.i(TAG, "wakeUp success: $word")
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            tts.play("我在")
+                        }
                     }
 
                     override fun onError(errorCode: Int, errorMessage: String) {
@@ -122,7 +126,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_stop_wakeup).setOnClickListener {
-            lifecycleScope.launch {
+            lifecycleScope.launch(Dispatchers.IO) {
                 wakeUp.stop()
             }
         }

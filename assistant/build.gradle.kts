@@ -74,6 +74,7 @@ dependencies {
 
 apply(plugin = "maven-publish")
 
+// 执行 ./gradlew publish 上传 smart-assistant 到 maven
 configure<PublishingExtension> {
     publications {
         repositories {
@@ -91,7 +92,7 @@ configure<PublishingExtension> {
             afterEvaluate {
                 from(components.getByName("devRelease"))
                 groupId = "com.thoughtworks.smart-assistant"
-                version = "0.1.1"
+                version = "0.2.0"
             }
         }
     }
@@ -102,7 +103,7 @@ configure<PublishingExtension> {
             groupId = "com.thoughtworks.smart-assistant"
             version = "0.1.0"
             artifactId = "nuisdk"
-            artifact(file("libs/nuisdk-release.aar"))
+            artifact(file("libs/ali/nuisdk-release.aar"))
         }
     }
 }

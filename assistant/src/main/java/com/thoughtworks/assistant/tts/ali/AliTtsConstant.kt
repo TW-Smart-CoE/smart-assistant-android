@@ -1,12 +1,12 @@
 package com.thoughtworks.assistant.tts.ali
 
 object AliTtsConstant {
-    const val TAG = "AliTTS"
+    const val TAG = "AliTts"
 
     // manifest 配置key
-    const val META_DATA_ACCESS_KEY = "ALI_TTS_ACCESS_KEY"
-    const val META_DATA_ACCESS_KEY_SECRET = "ALI_TTS_ACCESS_KEY_SECRET"
-    const val META_DATA_APP_KEY = "ALI_TTS_APP_KEY"
+    const val META_DATA_ACCESS_KEY = "ALI_IVS_ACCESS_KEY"
+    const val META_DATA_ACCESS_KEY_SECRET = "ALI_IVS_ACCESS_KEY_SECRET"
+    const val META_DATA_APP_KEY = "ALI_IVS_APP_KEY"
 
     // SDK 配置
     const val DEFAULT_URL = "wss://nls-gateway.cn-shanghai.aliyuncs.com:443/ws/v1"
@@ -22,8 +22,8 @@ object AliTtsConstant {
     const val DEFAULT_FILE_SAVE_DIR = "ali_tts"
 
     // SP KEY
-    const val SP_ACCESS_TOKEN_KEY = "key_access_token"
-    const val SP_EXPIRE_TIME_KEY = "key_expire_time"
+//    const val SP_ACCESS_TOKEN_KEY = "key_access_token"
+//    const val SP_EXPIRE_TIME_KEY = "key_expire_time"
 
     const val MILL_SECONDS = 1000
 }

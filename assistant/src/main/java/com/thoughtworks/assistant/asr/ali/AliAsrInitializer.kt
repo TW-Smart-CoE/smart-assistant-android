@@ -1,17 +1,15 @@
-package com.thoughtworks.assistant.tts.ali
+package com.thoughtworks.assistant.asr.ali
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.alibaba.idst.nui.CommonUtils
 import com.alibaba.nls.client.AccessToken
-import com.thoughtworks.assistant.tts.ali.AliTtsConstant.META_DATA_ACCESS_KEY
-import com.thoughtworks.assistant.tts.ali.AliTtsConstant.META_DATA_ACCESS_KEY_SECRET
-import com.thoughtworks.assistant.tts.ali.AliTtsConstant.META_DATA_APP_KEY
+import com.thoughtworks.assistant.asr.ali.AliAsrConstant.META_DATA_ACCESS_KEY
+import com.thoughtworks.assistant.asr.ali.AliAsrConstant.META_DATA_ACCESS_KEY_SECRET
+import com.thoughtworks.assistant.asr.ali.AliAsrConstant.META_DATA_APP_KEY
+import com.thoughtworks.assistant.asr.ali.AliAsrConstant.TAG
 import com.thoughtworks.assistant.tts.ali.AliTtsConstant.MILL_SECONDS
-import com.thoughtworks.assistant.tts.ali.AliTtsConstant.SP_ACCESS_TOKEN_KEY
-import com.thoughtworks.assistant.tts.ali.AliTtsConstant.SP_EXPIRE_TIME_KEY
-import com.thoughtworks.assistant.tts.ali.AliTtsConstant.TAG
 import com.thoughtworks.assistant.utils.SpUtils
 import com.thoughtworks.assistant.utils.Utils.getDeviceId
 import com.thoughtworks.assistant.utils.Utils.getManifestMetaData
@@ -23,12 +21,12 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 
 @SuppressLint("StaticFieldLeak")
-object AliTtsInitializer {
+object AliAsrInitializer {
     lateinit var context: Context
     var isInit = false
 
-    var ttsConfig = AliTtsConfig()
-    var ttsParams = AliTtsParams()
+    var asrConfig = AliAsrConfig()
+    var asrParams = AliAsrParams()
 
     val coroutineScope = MainScope()
     var initJob: Job? = null
@@ -39,20 +37,34 @@ object AliTtsInitializer {
         initJob = coroutineScope.launch {
             copySdkAssets(context)
 
-            AliTtsInitializer.context = context.applicationContext
-            ttsConfig = createConfig(context)
+            AliAsrInitializer.context = context.applicationContext
+            asrConfig = createConfig(context)
             isInit = true
         }
     }
 
-    private suspend fun createConfig(context: Context): AliTtsConfig {
+    private suspend fun createConfig(context: Context): AliAsrConfig {
         val accessKey = context.getManifestMetaData(META_DATA_ACCESS_KEY)
         val accessKeySecret = context.getManifestMetaData(META_DATA_ACCESS_KEY_SECRET)
         val appKey = context.getManifestMetaData(META_DATA_APP_KEY)
         val deviceId = context.getDeviceId()
         val workspace = CommonUtils.getModelPath(context)
         val token = getToken(accessKey, accessKeySecret)
-        return AliTtsConfig(accessKey, accessKeySecret, appKey, deviceId, workspace, token)
+
+        var debugPath = ""
+        context.externalCacheDir?.absolutePath?.also {
+            debugPath = "$it/debug_${System.currentTimeMillis()}"
+        }
+
+        return AliAsrConfig(
+            accessKey = accessKey,
+            accessKeySecret = accessKeySecret,
+            appKey = appKey,
+            deviceId = deviceId,
+            workspace = workspace,
+            debugPath = debugPath,
+            token = token,
+        )
     }
 
     private suspend fun copySdkAssets(context: Context): Boolean {
@@ -65,19 +77,19 @@ object AliTtsInitializer {
         return withContext(Dispatchers.IO) {
             try {
                 val spUtils = SpUtils(context)
-                val savedExpireTime = spUtils.getLong(SP_EXPIRE_TIME_KEY)
+                val savedExpireTime = spUtils.getLong(SpUtils.SP_ALI_EXPIRE_TIME_KEY)
                 if (savedExpireTime == 0L || savedExpireTime * MILL_SECONDS <= System.currentTimeMillis()) {
                     val accessToken = AccessToken(accessKey, accessKeySecret)
                     accessToken.apply()
 
                     val expireTime = accessToken.expireTime
                     val token = accessToken.token
-                    spUtils.saveLong(SP_EXPIRE_TIME_KEY, expireTime)
-                    spUtils.saveStr(SP_ACCESS_TOKEN_KEY, token)
+                    spUtils.saveLong(SpUtils.SP_ALI_EXPIRE_TIME_KEY, expireTime)
+                    spUtils.saveStr(SpUtils.SP_ALI_ACCESS_TOKEN_KEY, token)
 
                     token
                 } else {
-                    spUtils.getStr(SP_ACCESS_TOKEN_KEY)
+                    spUtils.getStr(SpUtils.SP_ALI_ACCESS_TOKEN_KEY)
                 }
             } catch (e: IOException) {
                 Log.e(TAG, "Get token failed!", e)

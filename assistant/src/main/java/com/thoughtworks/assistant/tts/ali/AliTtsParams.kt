@@ -11,8 +11,8 @@ data class AliTtsParams(
     val sampleRate: Int = DEFAULT_SAMPLE_RATE,
     val encodeType: String = DEFAULT_ENCODE_TYPE
 ) {
-    fun toParams(params: Map<String, String>): Map<String, String> {
-        val result = mutableMapOf<String, String>()
+    fun toParams(params: Map<String, Any>): Map<String, Any> {
+        val result = mutableMapOf<String, Any>()
         result["font_name"] = fontName
         result["enable_subtitle"] = enableSubtitle
         result["sample_rate"] = sampleRate.toString()

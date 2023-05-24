@@ -37,6 +37,30 @@ lifecycleScope.launch {
 }
 ```
 
+### Asr
+
+```kotlin
+val smartAssistant = SmartAssistant(this)
+val asr = smartAssistant.getAsr()
+
+// start asr
+lifecycleScope.launch {
+    val text = asr.startListening()
+    if (text.isEmpty()) {
+        Log.d(TAG, "asr result is empty")
+        tts.play("I heard nothing")
+    } else {
+        Log.d(TAG, "asr result: $text")
+        tts.play(text)
+    }
+}
+
+// stop asr
+lifecycleScope.launch {
+    asr.stopListening()
+}
+```
+
 ### WakeUp
 
 Please visit the following webpage: [Baidu AI WakeUp](https://ai.baidu.com/tech/speech/wake). Set the wake-up word and download the WakeUp.bin file.)

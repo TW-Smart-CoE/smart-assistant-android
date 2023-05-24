@@ -1,10 +1,10 @@
-package com.hkmw.roboassistant.ability.speech.ali.models
+package com.thoughtworks.assistant.asr.ali.models
 
 import com.google.gson.annotations.SerializedName
 
 data class Payload(
     @SerializedName("result")
-    var result: String? = null,
+    var result: String = "",
     @SerializedName("duration")
-    var duration: Int? = null,
+    var duration: Int = 0,
 )

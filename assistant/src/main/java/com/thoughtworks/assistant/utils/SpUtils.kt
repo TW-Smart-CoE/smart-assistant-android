@@ -28,5 +28,8 @@ class SpUtils(context: Context, fileName: String = DEFAULT_SP_FILE) {
 
     companion object {
         const val DEFAULT_SP_FILE = "share_preference"
+
+        const val SP_ALI_ACCESS_TOKEN_KEY = "key_ali_access_token"
+        const val SP_ALI_EXPIRE_TIME_KEY = "key_ali_expire_time"
     }
 }

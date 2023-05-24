@@ -1,4 +1,4 @@
-package com.hkmw.roboassistant.ability.speech.ali.models
+package com.thoughtworks.assistant.asr.ali.models
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,11 +1,11 @@
-package com.thoughtworks.assistant.tts.ali
+package com.thoughtworks.assistant.asr.ali
 
 import com.thoughtworks.assistant.tts.ali.AliTtsConstant.DEFAULT_ENCODE_TYPE
 import com.thoughtworks.assistant.tts.ali.AliTtsConstant.DEFAULT_FONT_NAME
 import com.thoughtworks.assistant.tts.ali.AliTtsConstant.DEFAULT_SAMPLE_RATE
 import com.thoughtworks.assistant.tts.ali.AliTtsConstant.ENABLE_SUBTITLE
 
-data class AliTtsParams(
+data class AliAsrParams(
     val fontName: String = DEFAULT_FONT_NAME,
     val enableSubtitle: String = ENABLE_SUBTITLE,
     val sampleRate: Int = DEFAULT_SAMPLE_RATE,

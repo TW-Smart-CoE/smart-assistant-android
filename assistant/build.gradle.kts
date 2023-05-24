@@ -40,6 +40,7 @@ dependencies {
     implementation(libs.bundles.android)
 
     api(fileTree("libs") { include("**/*.jar") })
+    implementation("com.google.code.gson:gson:2.10.1")
     // ali libs
     implementation("com.aliyun:aliyun-java-sdk-core:3.7.1")
     implementation("com.alibaba.nls:nls-sdk-common:2.1.6") {
@@ -92,7 +93,7 @@ configure<PublishingExtension> {
             afterEvaluate {
                 from(components.getByName("devRelease"))
                 groupId = "com.thoughtworks.smart-assistant"
-                version = "0.2.0"
+                version = "0.3.0"
             }
         }
     }

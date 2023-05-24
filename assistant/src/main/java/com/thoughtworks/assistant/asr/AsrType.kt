@@ -1,4 +1,5 @@
 package com.thoughtworks.assistant.asr
 
-class ASRType {
+enum class AsrType {
+    Ali
 }

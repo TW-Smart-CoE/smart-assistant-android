@@ -1,18 +1,18 @@
-package com.hkmw.roboassistant.ability.speech.ali.models
+package com.thoughtworks.assistant.asr.ali.models
 
 import com.google.gson.annotations.SerializedName
 
 data class Header(
     @SerializedName("namespace")
-    var namespace: String? = null,
+    var namespace: String = "",
     @SerializedName("name")
-    var name: String? = null,
+    var name: String = "",
     @SerializedName("status")
-    var status: Int? = null,
+    var status: Int = 0,
     @SerializedName("message_id")
-    var messageId: String? = null,
+    var messageId: String = "",
     @SerializedName("task_id")
-    var taskId: String? = null,
+    var taskId: String = "",
     @SerializedName("status_text")
-    var statusText: String? = null,
+    var statusText: String = "",
 )

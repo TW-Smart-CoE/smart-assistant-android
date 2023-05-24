@@ -9,13 +9,13 @@
     <application android:usesCleartextTraffic="true">
 
         <meta-data
-            android:name="ALI_TTS_ACCESS_KEY"
+            android:name="ALI_IVS_ACCESS_KEY"
             android:value="LTAI5tCTFtQRPQjv9EsKKdWq" />
         <meta-data
-            android:name="ALI_TTS_ACCESS_KEY_SECRET"
+            android:name="ALI_IVS_ACCESS_KEY_SECRET"
             android:value="vuIs6q9sJugpcInPk7b6kxbM3xJJfy" />
         <meta-data
-            android:name="ALI_TTS_APP_KEY"
+            android:name="ALI_IVS_APP_KEY"
             android:value="tLuhZZn2xrMQnsHB" />
         <meta-data
             android:name="BAIDU_IVS_APP_ID"

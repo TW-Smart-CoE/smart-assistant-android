@@ -1,4 +1,7 @@
 package com.thoughtworks.assistant.asr
 
-class Asr {
+interface Asr {
+    suspend fun startListening(): String
+    suspend fun stopListening()
+    suspend fun release()
 }

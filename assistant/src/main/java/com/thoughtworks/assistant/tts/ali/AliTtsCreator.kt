@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.launch
 import java.util.*
 
-class AliTtsCreator(private val params: Map<String, String>) {
+class AliTtsCreator(private val params: Map<String, Any>) {
     private var isInit = false
     private val ttsInstance = NativeNui(Constants.ModeType.MODE_TTS)
     private val ttsTaskMap = mutableMapOf<String, Channel<AliTtsData>>()
@@ -70,7 +70,7 @@ class AliTtsCreator(private val params: Map<String, String>) {
         if (initResult == Constants.NuiResultCode.SUCCESS) {
             val ttsParams = AliTtsInitializer.ttsParams.toParams(params)
             ttsParams.forEach {
-                ttsInstance.setparamTts(it.key, it.value)
+                ttsInstance.setparamTts(it.key, it.value.toString())
             }
             isInit = true
         }

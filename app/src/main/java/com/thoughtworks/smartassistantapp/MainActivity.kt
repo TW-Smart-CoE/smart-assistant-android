@@ -11,18 +11,23 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.thoughtworks.assistant.SmartAssistant
+import com.thoughtworks.assistant.asr.Asr
+import com.thoughtworks.assistant.asr.AsrType
 import com.thoughtworks.assistant.tts.Tts
+import com.thoughtworks.assistant.tts.TtsType
 import com.thoughtworks.assistant.wakeup.WakeUp
 import com.thoughtworks.assistant.wakeup.WakeUpListener
 import com.thoughtworks.assistant.wakeup.WakeUpType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var tts: Tts
     lateinit var wakeUp: WakeUp
+    lateinit var asr: Asr
 
     private val permissions = arrayOf(
         android.Manifest.permission.RECORD_AUDIO,
@@ -84,17 +89,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_main)
+        initSmartAssistant()
+        initUI()
+        requestPermissions()
+    }
 
-        val smartAssistant = SmartAssistant(this)
-        tts = smartAssistant.getTts()
-        wakeUp = smartAssistant.getWakeUp(
-            WakeUpType.Baidu,
-            mapOf(Pair("kws-file", "assets:///WakeUp.bin"))
-        )
-
+    private fun initUI() {
         findViewById<Button>(R.id.btn_click).setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 tts.play("hello world")
+                asr.stopListening()
             }
 
             lifecycleScope.launch(Dispatchers.IO) {
@@ -109,7 +113,16 @@ class MainActivity : AppCompatActivity() {
                     override fun onSuccess(word: String) {
                         Log.i(TAG, "wakeUp success: $word")
                         lifecycleScope.launch(Dispatchers.IO) {
-                            tts.play("我在")
+                            tts.play("Hi, I'm listening")
+
+                            val text = asr.startListening()
+                            if (text.isEmpty()) {
+                                Log.d(TAG, "asr result is empty")
+                                tts.play("I heard nothing")
+                            } else {
+                                Log.d(TAG, "asr result: $text")
+                                tts.play(text)
+                            }
                         }
                     }
 
@@ -130,8 +143,25 @@ class MainActivity : AppCompatActivity() {
                 wakeUp.stop()
             }
         }
+    }
 
-        requestPermissions()
+    private fun initSmartAssistant() {
+        val smartAssistant = SmartAssistant(this)
+        tts = smartAssistant.getTts(TtsType.Ali)
+
+        wakeUp = smartAssistant.getWakeUp(
+            WakeUpType.Baidu,
+            mapOf(Pair("kws-file", "assets:///WakeUp.bin"))
+        )
+
+        asr = smartAssistant.getAsr(
+            AsrType.Ali,
+            mapOf(
+                Pair("enable_voice_detection", true),
+                Pair("max_start_silence", 10000),
+                Pair("max_end_silence", 800)
+            )
+        )
     }
 
     override fun onDestroy() {

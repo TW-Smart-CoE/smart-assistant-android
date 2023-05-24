@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import java.io.File
 
-class AliTts(private val context: Context, params: Map<String, String>) : Tts {
+class AliTts(private val context: Context, params: Map<String, Any>) : Tts {
     init {
         AliTtsInitializer.init(context)
     }

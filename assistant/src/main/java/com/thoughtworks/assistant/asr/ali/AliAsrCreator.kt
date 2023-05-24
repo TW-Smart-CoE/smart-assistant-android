@@ -199,6 +199,7 @@ class AliAsrCreator(private val context: Context, private val params: Map<String
             nlsConfig.put("enable_voice_detection", params["enable_voice_detection"] ?: true)
             nlsConfig.put("max_start_silence", params["max_start_silence"] ?: 10000)
             nlsConfig.put("max_end_silence", params["max_end_silence"] ?: 800)
+            nlsConfig.put("speech_noise_threshold", params["speech_noise_threshold"] ?: 0)
             //nls_config.put("sample_rate", 16000);
             //nls_config.put("sr_format", "opus");
             val parameters = JSONObject()

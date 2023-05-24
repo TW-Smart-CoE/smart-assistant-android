@@ -93,7 +93,7 @@ configure<PublishingExtension> {
             afterEvaluate {
                 from(components.getByName("devRelease"))
                 groupId = "com.thoughtworks.smart-assistant"
-                version = "0.3.0"
+                version = "0.3.1"
             }
         }
     }

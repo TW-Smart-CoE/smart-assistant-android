@@ -26,7 +26,6 @@ object AliAsrInitializer {
     var isInit = false
 
     var asrConfig = AliAsrConfig()
-    var asrParams = AliAsrParams()
 
     val coroutineScope = MainScope()
     var initJob: Job? = null

@@ -47,6 +47,9 @@ object AliTtsInitializer {
         val accessKey = context.getManifestMetaData(META_DATA_ACCESS_KEY)
         val accessKeySecret = context.getManifestMetaData(META_DATA_ACCESS_KEY_SECRET)
         val appKey = context.getManifestMetaData(META_DATA_APP_KEY)
+
+        Log.d(TAG, "accessKey: $accessKey, accessKeySecret: $accessKeySecret, appKey: $appKey")
+
         val deviceId = context.getDeviceId()
         val workspace = CommonUtils.getModelPath(context)
         val token = getToken(accessKey, accessKeySecret)

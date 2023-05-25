@@ -1,6 +1,7 @@
 package com.thoughtworks.assistant.wakeup.baidu
 
 import android.content.Context
+import android.util.Log
 import com.baidu.speech.EventListener
 import com.baidu.speech.EventManager
 import com.baidu.speech.EventManagerFactory
@@ -8,6 +9,7 @@ import com.baidu.speech.asr.SpeechConstant
 import com.thoughtworks.assistant.utils.Utils.getManifestMetaData
 import com.thoughtworks.assistant.wakeup.WakeUp
 import com.thoughtworks.assistant.wakeup.WakeUpListener
+import com.thoughtworks.assistant.wakeup.baidu.BaiduWakeUpConstant.TAG
 import org.json.JSONObject
 
 class BaiduWakeUp(private val context: Context, private val params: Map<String, String>) : WakeUp {
@@ -55,6 +57,9 @@ class BaiduWakeUp(private val context: Context, private val params: Map<String, 
             context.getManifestMetaData(BaiduWakeUpConstant.META_DATA_API_KEY)
         wpParams[SpeechConstant.SECRET] =
             context.getManifestMetaData(BaiduWakeUpConstant.META_DATA_SECRET_KEY)
+
+        Log.d(TAG, "APPID: ${wpParams[SpeechConstant.APP_ID]}, APP_KEY: ${wpParams[SpeechConstant.APP_KEY]}, SECRET: ${wpParams[SpeechConstant.SECRET]}")
+
         wpParams[SpeechConstant.WP_WORDS_FILE] =
             params[SpeechConstant.WP_WORDS_FILE] ?: "assets:///WakeUp.bin"
 

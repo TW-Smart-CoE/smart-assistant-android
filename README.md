@@ -16,7 +16,7 @@ maven {
 }
 
 // add dependency
-implementation("com.thoughtworks.smart-assistant:assistant:0.3.1")
+implementation("com.thoughtworks.smart-assistant:assistant:0.3.2")
 ```
 
 ### Tts

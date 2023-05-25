@@ -7,24 +7,23 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application android:usesCleartextTraffic="true">
-
         <meta-data
             android:name="ALI_IVS_ACCESS_KEY"
-            android:value="LTAI5tCTFtQRPQjv9EsKKdWq" />
+            android:value="${ALI_IVS_ACCESS_KEY}" />
         <meta-data
             android:name="ALI_IVS_ACCESS_KEY_SECRET"
-            android:value="vuIs6q9sJugpcInPk7b6kxbM3xJJfy" />
+            android:value="${ALI_IVS_ACCESS_KEY_SECRET}" />
         <meta-data
             android:name="ALI_IVS_APP_KEY"
-            android:value="tLuhZZn2xrMQnsHB" />
+            android:value="${ALI_IVS_APP_KEY}" />
         <meta-data
             android:name="BAIDU_IVS_APP_ID"
-            android:value="\33893618" />
+            android:value="\${BAIDU_IVS_APP_ID}" />
         <meta-data
             android:name="BAIDU_IVS_API_KEY"
-            android:value="HorySKPtlNWEZCZDXrhhUcEI" />
+            android:value="${BAIDU_IVS_API_KEY}" />
         <meta-data
             android:name="BAIDU_IVS_SECRET_KEY"
-            android:value="tPwTNWNR0YgutwwxcLf2eH6wcmQFE7x3" />
+            android:value="${BAIDU_IVS_SECRET_KEY}" />
     </application>
 </manifest>

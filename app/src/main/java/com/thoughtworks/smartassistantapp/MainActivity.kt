@@ -113,12 +113,14 @@ class MainActivity : AppCompatActivity() {
                     override fun onSuccess(word: String) {
                         Log.i(TAG, "wakeUp success: $word")
                         lifecycleScope.launch(Dispatchers.IO) {
-                            tts.play("Hi, I'm listening")
+                            tts.play("我在")
+
+                            delay(500)
 
                             val text = asr.startListening()
                             if (text.isEmpty()) {
                                 Log.d(TAG, "asr result is empty")
-                                tts.play("I heard nothing")
+                                tts.play("我什么也没听到")
                             } else {
                                 Log.d(TAG, "asr result: $text")
                                 tts.play(text)

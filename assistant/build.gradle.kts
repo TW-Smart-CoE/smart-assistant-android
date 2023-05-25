@@ -20,6 +20,13 @@ androidLibrary {
             abiFilters.add("armeabi")
             abiFilters.add("armeabi-v7a")
         }
+
+        manifestPlaceholders["ALI_IVS_ACCESS_KEY"] = System.getenv("ALI_IVS_ACCESS_KEY") ?: ""
+        manifestPlaceholders["ALI_IVS_ACCESS_KEY_SECRET"] = System.getenv("ALI_IVS_ACCESS_KEY_SECRET") ?: ""
+        manifestPlaceholders["ALI_IVS_APP_KEY"] = System.getenv("ALI_IVS_APP_KEY") ?: ""
+        manifestPlaceholders["BAIDU_IVS_APP_ID"] = System.getenv("BAIDU_IVS_APP_ID") ?: ""
+        manifestPlaceholders["BAIDU_IVS_API_KEY"] = System.getenv("BAIDU_IVS_API_KEY") ?: ""
+        manifestPlaceholders["BAIDU_IVS_SECRET_KEY"] = System.getenv("BAIDU_IVS_SECRET_KEY") ?: ""
     }
 
     sourceSets {
@@ -93,7 +100,7 @@ configure<PublishingExtension> {
             afterEvaluate {
                 from(components.getByName("devRelease"))
                 groupId = "com.thoughtworks.smart-assistant"
-                version = "0.3.1"
+                version = "0.3.2"
             }
         }
     }

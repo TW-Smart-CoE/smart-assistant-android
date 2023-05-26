@@ -44,7 +44,7 @@ dependencies {
 }
 ```
 
-## Tts
+## Tts 语音转文字
 
 ### Ali Tts
 
@@ -79,7 +79,7 @@ lifecycleScope.launch {
 }
 ```
 
-## Asr
+## Asr 语音识别
 
 ### Ali Tts
 
@@ -128,7 +128,7 @@ lifecycleScope.launch {
 }
 ```
 
-## 语音唤醒
+## WakeUp 语音唤醒
 
 ### Baidu WakeUp
 

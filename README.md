@@ -44,12 +44,16 @@ dependencies {
 }
 ```
 
-## 使用
+## Tts 使用
 
-### Tts
+### Ali Tts
+
+#### 后台配置
+- 开通[阿里云智能语音交互服](https://nls-portal.console.aliyun.com/overview)，创建项目，在[项目列表](https://nls-portal.console.aliyun.com/applist)中打开创建的 App，得到 APP_KEY，在这里配置项目功能。
+- 在 [RAM 访问控制](https://ram.console.aliyun.com/overview)中点击 AccessKey，进入[访问凭证管理](https://ram.console.aliyun.com/manage/ak)页面。在这里创建 Access Key 后得到 ACCESS_KEY 和 ACCESS_KEY_SECRET。
 
 #### SDK/API Key 配置
-##### Ali Tts
+
 在环境变量里配置：
 ```shell
 export ALI_IVS_ACCESS_KEY={Your Access Key}
@@ -75,13 +79,17 @@ lifecycleScope.launch {
 }
 ```
 
-### Asr
+## Asr 使用
+
+### Ali Tts
+
+#### 后台配置
+和 Ali Tts 完全相同，共用一套配置。
 
 #### 注意事项
 - 动态请求 android.Manifest.permission.RECORD_AUDIO 权限。
 
 #### SDK/API Key 配置
-##### Ali Asr
 和 Ali Tts 完全相同，共用一套配置。
 ```shell
 export ALI_IVS_ACCESS_KEY={Your Access Key}
@@ -120,11 +128,14 @@ lifecycleScope.launch {
 }
 ```
 
-### 唤醒
+## 语音唤醒
+
+### Baidu WakeUp
 
 #### 后台配置
-- 请访问以下网页:[百度AI唤醒](https://ai.baidu.com/tech/speech/wake)。 设置唤醒词并下载WakeUp.bin文件。 将 WakeUp.bin 文件放在 project/app/src/main/assets 目录下。
-- 请前往 [百度AI控制台](https://console.bce.baidu.com/ai/?_=1684837854400#/ai/speech/app/list) 创建一个应用程序。 确保包名称与 applicationId 完全相同。 创建应用程序后，您将获得 AppID, API 密钥和 Secret 键。
+
+- 请前往[百度AI唤醒](https://ai.baidu.com/tech/speech/wake)。 设置唤醒词并下载 WakeUp.bin 文件。 将 WakeUp.bin 文件放在 _project/app/src/main/assets_ 目录下。
+- 请前往[百度AI控制台](https://console.bce.baidu.com/ai/?_=1684837854400#/ai/speech/app/list)创建一个应用程序。确保包名称与 applicationId 完全相同。创建应用程序后，您将获得 APP_ID, API_KEY 和 SECRET_KEY。
 
 #### SDK/API Key 配置
 ```shell
@@ -135,8 +146,8 @@ export BAIDU_IVS_SECRET_KEY={Your Secret Key}
 
 #### 注意事项
 - 动态请求 android.Manifest.permission.RECORD_AUDIO 权限。
-- 确保minSdk <= 22,否则您会收到以下错误: com.baidu.speech.recognizerdemo I/WakeupEventAdapter: wakeup name:wp.error; params:{"error":11,"desc":"Wakeup engine model file invalid","sub_error":11005}
-- 如果需要在程序一启动就调用 wakeup start，经常会收到 errorCode: 3, errorMessage: Open Recorder failed 错误。需要在启动前设置 delay 时间，并检查这错误。如果出现该错误，可以再次 delay 后再启动。
+- 确保 minSdk <= 22，否则您会收到以下错误: com.baidu.speech.recognizerdemo I/WakeupEventAdapter: wakeup name:wp.error; params:{"error":11,"desc":"Wakeup engine model file invalid","sub_error":11005}
+- 如果需要在程序一启动就调用 wakeup start，经常会收到 errorCode: 3, errorMessage: Open Recorder failed 错误。需要在启动前设置 delay 时间（3~5秒），并检查这错误。如果出现该错误，可以再次 delay 后再启动。
 
 #### 示例代码
 ```kotlin

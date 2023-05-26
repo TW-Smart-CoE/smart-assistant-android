@@ -1,6 +1,6 @@
 # smart-assistant
 
-smart-assistant 封装了 Baidu，Alibaba 等厂商提供的 ASR，TTS，WakeUp 等智能语音交互服务 SDK，帮助使用者提供简单的接口。
+smart-assistant 封装了 Baidu，Alibaba 等厂商提供的 ASR，TTS，WakeUp 等智能语音交互服务 SDK。给开发者提供简单便捷的使用接口，无需关注复杂的 SDK 集成和适配。
 
 ## 依赖配置
 

@@ -90,7 +90,7 @@ lifecycleScope.launch {
 - 动态请求 android.Manifest.permission.RECORD_AUDIO 权限。
 
 #### SDK/API Key 配置
-和 Ali Tts 完全相同，共用一套配置。
+和 Ali Tts 完全相同，共用一套配置。在环境变量里配置：
 ```shell
 export ALI_IVS_ACCESS_KEY={Your Access Key}
 export ALI_IVS_ACCESS_KEY_SECRET={Your Access Key SECRET}
@@ -138,6 +138,7 @@ lifecycleScope.launch {
 - 请前往[百度AI控制台](https://console.bce.baidu.com/ai/?_=1684837854400#/ai/speech/app/list)创建一个应用程序。确保包名称与 applicationId 完全相同。创建应用程序后，您将获得 APP_ID, API_KEY 和 SECRET_KEY。
 
 #### SDK/API Key 配置
+在环境变量里配置：
 ```shell
 export BAIDU_IVS_APP_ID={Your APP ID}
 export BAIDU_IVS_API_KEY={Your API Key}

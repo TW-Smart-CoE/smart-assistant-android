@@ -44,7 +44,7 @@ dependencies {
 }
 ```
 
-## Tts 使用
+## Tts
 
 ### Ali Tts
 
@@ -79,7 +79,7 @@ lifecycleScope.launch {
 }
 ```
 
-## Asr 使用
+## Asr
 
 ### Ali Tts
 

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
     alias(libs.plugins.detekt)
+    id("kotlin-parcelize")
 }
 
 apply(from = "../config/jacoco/modules.kts")
@@ -27,6 +28,7 @@ androidLibrary {
         manifestPlaceholders["BAIDU_IVS_APP_ID"] = System.getenv("BAIDU_IVS_APP_ID") ?: ""
         manifestPlaceholders["BAIDU_IVS_API_KEY"] = System.getenv("BAIDU_IVS_API_KEY") ?: ""
         manifestPlaceholders["BAIDU_IVS_SECRET_KEY"] = System.getenv("BAIDU_IVS_SECRET_KEY") ?: ""
+        manifestPlaceholders["OPENAI_API_KEY"] = System.getenv("OPENAI_API_KEY") ?: ""
     }
 
     sourceSets {
@@ -47,7 +49,12 @@ dependencies {
     implementation(libs.bundles.android)
 
     api(fileTree("libs") { include("**/*.jar") })
-    implementation("com.google.code.gson:gson:2.10.1")
+
+    // network
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+
     // ali libs
     implementation("com.aliyun:aliyun-java-sdk-core:3.7.1")
     implementation("com.alibaba.nls:nls-sdk-common:2.1.6") {
@@ -100,7 +107,7 @@ configure<PublishingExtension> {
             afterEvaluate {
                 from(components.getByName("devRelease"))
                 groupId = "com.thoughtworks.smart-assistant"
-                version = "0.3.3"
+                version = "0.4.0"
             }
         }
     }

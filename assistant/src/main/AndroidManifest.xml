@@ -25,5 +25,8 @@
         <meta-data
             android:name="BAIDU_IVS_SECRET_KEY"
             android:value="${BAIDU_IVS_SECRET_KEY}" />
+        <meta-data
+            android:name="OPENAI_API_KEY"
+            android:value="${OPENAI_API_KEY}" />
     </application>
 </manifest>

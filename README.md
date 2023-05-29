@@ -1,6 +1,6 @@
 # smart-assistant
 
-smart-assistant 封装了 Baidu，Alibaba 等厂商提供的 ASR，TTS，WakeUp 等智能语音交互服务 SDK。给开发者提供简单便捷的使用接口，无需关注复杂的 SDK 集成和适配。
+smart-assistant 封装了 Baidu，Alibaba，OpenAI 等厂商提供的 ASR，TTS，WakeUp，ChatGpt 等智能语音交互服务 SDK。给开发者提供简单便捷的使用接口，无需关注复杂的 SDK 集成和适配。
 
 ## 依赖配置
 
@@ -20,7 +20,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation("com.thoughtworks.smart-assistant:assistant:0.3.3")
+    implementation("com.thoughtworks.smart-assistant:assistant:0.4.0")
 }
 ```
 
@@ -65,7 +65,7 @@ export ALI_IVS_APP_KEY={Your APP Key}
 
 ```kotlin
 val smartAssistant = SmartAssistant(this)
-val tts = smartAssistant.getTts(TtsType.Ali)
+val tts = smartAssistant.createTts(TtsType.Ali)
 
 // play a text directly:
 lifecycleScope.launch {
@@ -101,7 +101,7 @@ export ALI_IVS_APP_KEY={Your APP Key}
 
 ```kotlin
 val smartAssistant = SmartAssistant(this)
-val asr = smartAssistant.getAsr(
+val asr = smartAssistant.createAsr(
     AsrType.Ali,
     mapOf(
         Pair("enable_voice_detection", true),
@@ -154,7 +154,7 @@ export BAIDU_IVS_SECRET_KEY={Your Secret Key}
 ```kotlin
 val smartAssistant = SmartAssistant(this)
 
-wakeUp = smartAssistant.getWakeUp(
+wakeUp = smartAssistant.createWakeUp(
     WakeUpType.Baidu,
     mapOf(Pair("kws-file", "assets:///WakeUp.bin"))
 )
@@ -185,6 +185,55 @@ findViewById<Button>(R.id.btn_stop_wakeup).setOnClickListener {
     lifecycleScope.launch {
         // stop wakeup
         wakeUp.stop()
+    }
+}
+```
+
+## Chat 智能聊天
+
+### OpenAI ChatGpt
+
+#### 后台配置
+
+- 请前往[OpenAI API keys](https://platform.openai.com/account/api-keys)。 创建一个 API Key。
+
+#### SDK/API Key 配置
+在环境变量里配置：
+```shell
+export OPENAI_API_KEY={Your API Key}
+```
+
+#### 示例代码
+```kotlin
+val smartAssistant = SmartAssistant(this)
+
+val chat = smartAssistant.createChat(
+    ChatType.ChatGpt,
+    mapOf(
+        Pair("base_url", "https://api.openai.com"),
+        Pair("model", "gpt-3.5-turbo-0301"),
+        Pair("temperature", 1.0f),
+        Pair(
+            "system_prompt", listOf(
+                "你是一个资深的美妆护肤品BA，你所回答的问题，都必须限定在这个知识领域之内",
+                "如果被问你是谁，你要说自己是一名资深的美妆护肤品专家",
+                "回答都要限定到50字以内"
+            )
+        ),
+    )
+)
+
+val text = asr.startListening()
+if (text.isEmpty()) {
+    Log.d(TAG, "asr result is empty")
+    tts.play("我什么也没听到")
+} else {
+    Log.d(TAG, "asr result: $text")
+    val response = chat.chat(text)
+    if (response.isEmpty()) {
+        tts.play("我不知道该怎么回答你")
+    } else {
+        tts.play(response)
     }
 }
 ```

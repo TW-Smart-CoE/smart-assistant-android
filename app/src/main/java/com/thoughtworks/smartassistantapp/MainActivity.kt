@@ -6,18 +6,21 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.thoughtworks.assistant.SmartAssistant
-import com.thoughtworks.assistant.asr.Asr
-import com.thoughtworks.assistant.asr.AsrType
-import com.thoughtworks.assistant.tts.Tts
-import com.thoughtworks.assistant.tts.TtsType
-import com.thoughtworks.assistant.wakeup.WakeUp
-import com.thoughtworks.assistant.wakeup.WakeUpListener
-import com.thoughtworks.assistant.wakeup.WakeUpType
+import com.thoughtworks.assistant.abilities.asr.Asr
+import com.thoughtworks.assistant.abilities.asr.AsrType
+import com.thoughtworks.assistant.abilities.chat.Chat
+import com.thoughtworks.assistant.abilities.chat.ChatType
+import com.thoughtworks.assistant.abilities.tts.Tts
+import com.thoughtworks.assistant.abilities.tts.TtsType
+import com.thoughtworks.assistant.abilities.wakeup.WakeUp
+import com.thoughtworks.assistant.abilities.wakeup.WakeUpListener
+import com.thoughtworks.assistant.abilities.wakeup.WakeUpType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -28,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var tts: Tts
     lateinit var wakeUp: WakeUp
     lateinit var asr: Asr
+    lateinit var chat: Chat
 
     private val permissions = arrayOf(
         android.Manifest.permission.RECORD_AUDIO,
@@ -123,13 +127,23 @@ class MainActivity : AppCompatActivity() {
                                 tts.play("我什么也没听到")
                             } else {
                                 Log.d(TAG, "asr result: $text")
-                                tts.play(text)
+                                val response = chat.chat(text)
+                                if (response.isEmpty()) {
+                                    tts.play("我不知道该怎么回答你")
+                                } else {
+                                    tts.play(response)
+                                }
                             }
                         }
                     }
 
                     override fun onError(errorCode: Int, errorMessage: String) {
                         Log.e(TAG, "errorCode: $errorCode, errorMessage: $errorMessage")
+                        Toast.makeText(
+                            this@MainActivity,
+                            "errorCode: $errorCode, errorMessage: $errorMessage",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
 
                     override fun onStop() {
@@ -149,19 +163,35 @@ class MainActivity : AppCompatActivity() {
 
     private fun initSmartAssistant() {
         val smartAssistant = SmartAssistant(this)
-        tts = smartAssistant.getTts(TtsType.Ali)
+        tts = smartAssistant.createTts(TtsType.Ali)
 
-        wakeUp = smartAssistant.getWakeUp(
+        wakeUp = smartAssistant.createWakeUp(
             WakeUpType.Baidu,
             mapOf(Pair("kws-file", "assets:///WakeUp.bin"))
         )
 
-        asr = smartAssistant.getAsr(
+        asr = smartAssistant.createAsr(
             AsrType.Ali,
             mapOf(
                 Pair("enable_voice_detection", true),
                 Pair("max_start_silence", 10000),
                 Pair("max_end_silence", 800)
+            )
+        )
+
+        chat = smartAssistant.createChat(
+            ChatType.ChatGpt,
+            mapOf(
+                Pair("base_url", "https://api.openai.com"),
+                Pair("model", "gpt-3.5-turbo-0301"),
+                Pair("temperature", 1.0f),
+                Pair(
+                    "system_prompt", listOf(
+                        "你是一个资深的美妆护肤品BA，你所回答的问题，都必须限定在这个知识领域之内",
+                        "如果被问你是谁，你要说自己是一名资深的美妆护肤品专家",
+                        "回答都要限定到50字以内"
+                    )
+                ),
             )
         )
     }
@@ -174,6 +204,8 @@ class MainActivity : AppCompatActivity() {
     private fun cleanup() {
         tts.release()
         wakeUp.release()
+        asr.release()
+        chat.release()
     }
 
     companion object {

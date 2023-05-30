@@ -23,6 +23,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data
+            android:name="ALI_IVS_ACCESS_KEY"
+            android:value="${ALI_IVS_ACCESS_KEY}" />
+        <meta-data
+            android:name="ALI_IVS_ACCESS_KEY_SECRET"
+            android:value="${ALI_IVS_ACCESS_KEY_SECRET}" />
+        <meta-data
+            android:name="ALI_IVS_APP_KEY"
+            android:value="${ALI_IVS_APP_KEY}" />
+        <meta-data
+            android:name="BAIDU_IVS_APP_ID"
+            android:value="\${BAIDU_IVS_APP_ID}" />
+        <meta-data
+            android:name="BAIDU_IVS_API_KEY"
+            android:value="${BAIDU_IVS_API_KEY}" />
+        <meta-data
+            android:name="BAIDU_IVS_SECRET_KEY"
+            android:value="${BAIDU_IVS_SECRET_KEY}" />
+        <meta-data
+            android:name="OPENAI_API_KEY"
+            android:value="${OPENAI_API_KEY}" />
     </application>
 
 </manifest>

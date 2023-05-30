@@ -25,6 +25,14 @@ androidApplication {
         minSdk = 22
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders["ALI_IVS_ACCESS_KEY"] = System.getenv("ALI_IVS_ACCESS_KEY") ?: ""
+        manifestPlaceholders["ALI_IVS_ACCESS_KEY_SECRET"] = System.getenv("ALI_IVS_ACCESS_KEY_SECRET") ?: ""
+        manifestPlaceholders["ALI_IVS_APP_KEY"] = System.getenv("ALI_IVS_APP_KEY") ?: ""
+        manifestPlaceholders["BAIDU_IVS_APP_ID"] = System.getenv("BAIDU_IVS_APP_ID") ?: ""
+        manifestPlaceholders["BAIDU_IVS_API_KEY"] = System.getenv("BAIDU_IVS_API_KEY") ?: ""
+        manifestPlaceholders["BAIDU_IVS_SECRET_KEY"] = System.getenv("BAIDU_IVS_SECRET_KEY") ?: ""
+        manifestPlaceholders["OPENAI_API_KEY"] = System.getenv("OPENAI_API_KEY") ?: ""
     }
 
     enableCompose()

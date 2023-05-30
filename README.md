@@ -20,7 +20,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation("com.thoughtworks.smart-assistant:assistant:0.4.1")
+    implementation("com.thoughtworks.smart-assistant:assistant:0.4.2")
 }
 ```
 
@@ -40,7 +40,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation "com.thoughtworks.smart-assistant:assistant:0.4.1"
+    implementation "com.thoughtworks.smart-assistant:assistant:0.4.2"
 }
 ```
 
@@ -54,11 +54,17 @@ dependencies {
 
 #### SDK/API Key 配置
 
-在环境变量里配置：
-```shell
-export ALI_IVS_ACCESS_KEY={Your Access Key}
-export ALI_IVS_ACCESS_KEY_SECRET={Your Access Key SECRET}
-export ALI_IVS_APP_KEY={Your APP Key}
+AndroidManifest.xml 中 application 标签下配置：
+```xml
+<meta-data
+    android:name="ALI_IVS_ACCESS_KEY"
+    android:value="${ALI_IVS_ACCESS_KEY}" />
+<meta-data
+    android:name="ALI_IVS_ACCESS_KEY_SECRET"
+    android:value="${ALI_IVS_ACCESS_KEY_SECRET}" />
+<meta-data
+    android:name="ALI_IVS_APP_KEY"
+    android:value="${ALI_IVS_APP_KEY}" />
 ```
 
 #### 示例代码
@@ -90,11 +96,19 @@ lifecycleScope.launch {
 - 动态请求 android.Manifest.permission.RECORD_AUDIO 权限。
 
 #### SDK/API Key 配置
-和 Ali Tts 完全相同，共用一套配置。在环境变量里配置：
-```shell
-export ALI_IVS_ACCESS_KEY={Your Access Key}
-export ALI_IVS_ACCESS_KEY_SECRET={Your Access Key SECRET}
-export ALI_IVS_APP_KEY={Your APP Key}
+和 Ali Tts 完全相同，共用一套配置。
+AndroidManifest.xml 中 application 标签下配置：
+
+```xml
+<meta-data
+    android:name="ALI_IVS_ACCESS_KEY"
+    android:value="${ALI_IVS_ACCESS_KEY}" />
+<meta-data
+    android:name="ALI_IVS_ACCESS_KEY_SECRET"
+    android:value="${ALI_IVS_ACCESS_KEY_SECRET}" />
+<meta-data
+    android:name="ALI_IVS_APP_KEY"
+    android:value="${ALI_IVS_APP_KEY}" />
 ```
 
 #### 示例代码
@@ -138,11 +152,17 @@ lifecycleScope.launch {
 - 请前往[百度AI控制台](https://console.bce.baidu.com/ai/?_=1684837854400#/ai/speech/app/list)创建一个应用程序。确保包名称与 applicationId 完全相同。创建应用程序后，您将获得 APP_ID, API_KEY 和 SECRET_KEY。
 
 #### SDK/API Key 配置
-在环境变量里配置：
-```shell
-export BAIDU_IVS_APP_ID={Your APP ID}
-export BAIDU_IVS_API_KEY={Your API Key}
-export BAIDU_IVS_SECRET_KEY={Your Secret Key}
+AndroidManifest.xml 中 application 标签下配置：
+```xml
+<meta-data
+    android:name="BAIDU_IVS_APP_ID"
+    android:value="\${BAIDU_IVS_APP_ID}" />
+<meta-data
+    android:name="BAIDU_IVS_API_KEY"
+    android:value="${BAIDU_IVS_API_KEY}" />
+<meta-data
+    android:name="BAIDU_IVS_SECRET_KEY"
+    android:value="${BAIDU_IVS_SECRET_KEY}" />
 ```
 
 #### 注意事项
@@ -198,9 +218,11 @@ findViewById<Button>(R.id.btn_stop_wakeup).setOnClickListener {
 - 请前往[OpenAI API keys](https://platform.openai.com/account/api-keys)。 创建一个 API Key。
 
 #### SDK/API Key 配置
-在环境变量里配置：
-```shell
-export OPENAI_API_KEY={Your API Key}
+AndroidManifest.xml 中 application 标签下配置：
+```xml
+<meta-data
+    android:name="OPENAI_API_KEY"
+    android:value="${OPENAI_API_KEY}" />
 ```
 
 #### 示例代码

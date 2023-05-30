@@ -27,13 +27,13 @@ class ChatGpt(
         suspend fun chat(@Body request: RequestBody): ChatGptResponse
     }
 
-    private val baseUrl: String = (params["base_url"] ?: "https://api.openai.com/") as String
-    private val maxHistoryLen: Int = (params["max_history_len"] ?: 100) as Int
-    private val temperature: Float = (params["temperature"] ?: 1f) as Float
-    private val model: String = (params["model"] ?: DEFAULT_MODEL) as String
-    private val maxTokens: Int = (params["max_tokens"] ?: 2048) as Int
-    private val readTimeout: Long = (params["read_timeout"] ?: 20_000L) as Long
-    private val writeTimeout: Long = (params["write_timeout"] ?: 5_000L) as Long
+    private var baseUrl: String = (params["base_url"] ?: "https://api.openai.com/") as String
+    private var maxHistoryLen: Int = (params["max_history_len"] ?: 100) as Int
+    private var temperature: Float = (params["temperature"] ?: 1f) as Float
+    private var model: String = (params["model"] ?: DEFAULT_MODEL) as String
+    private var maxTokens: Int = (params["max_tokens"] ?: 2048) as Int
+    private var readTimeout: Long = (params["read_timeout"] ?: 20_000L) as Long
+    private var writeTimeout: Long = (params["write_timeout"] ?: 5_000L) as Long
     private var systemPromptList = mutableListOf<GptMessage>()
     private var conversionList = mutableListOf<GptMessage>()
 
@@ -72,7 +72,6 @@ class ChatGpt(
                 systemPromptList = it.map { prompt ->
                     GptMessage(ROLE_SYSTEM, prompt as String)
                 }.toMutableList()
-                println(systemPromptList)
             } else {
                 systemPromptList.add(GptMessage(ROLE_SYSTEM, it as String))
             }
@@ -107,6 +106,46 @@ class ChatGpt(
         conversionList.add(resMessage)
 
         return resMessage.content
+    }
+
+    override fun configure(params: Map<String, Any>) {
+        params["base_url"]?.let {
+            baseUrl = it as String
+        }
+
+        params["max_history_len"]?.let {
+            maxHistoryLen = it as Int
+        }
+
+        params["temperature"]?.let {
+            temperature = it as Float
+        }
+
+        params["model"]?.let {
+            model = it as String
+        }
+
+        params["max_tokens"]?.let {
+            maxTokens = it as Int
+        }
+
+        params["read_timeout"]?.let {
+            readTimeout = it as Long
+        }
+
+        params["write_timeout"]?.let {
+            writeTimeout = it as Long
+        }
+
+        params["system_prompt"]?.let {
+            if (it is List<*>) {
+                systemPromptList = it.map { prompt ->
+                    GptMessage(ROLE_SYSTEM, prompt as String)
+                }.toMutableList()
+            } else {
+                systemPromptList.add(GptMessage(ROLE_SYSTEM, it as String))
+            }
+        }
     }
 
     override fun clearConversationHistory() {

@@ -164,7 +164,7 @@ AndroidManifest.xml 中 application 标签下配置：
     android:name="BAIDU_IVS_SECRET_KEY"
     android:value="${BAIDU_IVS_SECRET_KEY}" />
 ```
-这里注意，因为 BAIDU_IVS_APP_ID 是个 Int 类型的数字，所以需要在前面加一个 "\" 符号，否则在代码中取出 value 时会因数据类型不对而报错。
+这里注意，因为 BAIDU_IVS_APP_ID 是个 Int 类型的数字，所以需要在前面加一个 "\\" 符号，否则在代码中取出 value 时会因数据类型不对而报错。
 
 #### 注意事项
 - 动态请求 android.Manifest.permission.RECORD_AUDIO 权限。

@@ -33,6 +33,44 @@ class MainActivity : AppCompatActivity() {
     lateinit var asr: Asr
     lateinit var chat: Chat
 
+    private val wakeUpListener = object : WakeUpListener {
+        override fun onSuccess() {
+            Log.i(TAG, "wakeUp success")
+            lifecycleScope.launch(Dispatchers.IO) {
+                tts.play("我在")
+
+                delay(500)
+
+                val text = asr.startListening()
+                if (text.isEmpty()) {
+                    Log.d(TAG, "asr result is empty")
+                    tts.play("我什么也没听到")
+                } else {
+                    Log.d(TAG, "asr result: $text")
+                    val response = chat.chat(text)
+                    if (response.isEmpty()) {
+                        tts.play("我不知道该怎么回答你")
+                    } else {
+                        tts.play(response)
+                    }
+                }
+            }
+        }
+
+        override fun onError(errorCode: Int, errorMessage: String) {
+            Log.e(TAG, "errorCode: $errorCode, errorMessage: $errorMessage")
+            Toast.makeText(
+                this@MainActivity,
+                "errorCode: $errorCode, errorMessage: $errorMessage",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        override fun onStop() {
+            Log.i(TAG, "wakeUp stopped")
+        }
+    }
+
     private val permissions = arrayOf(
         android.Manifest.permission.RECORD_AUDIO,
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -117,43 +155,7 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btn_start_wakeup).setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                wakeUp.setWakeUpListener(object : WakeUpListener {
-                    override fun onSuccess(word: String) {
-                        Log.i(TAG, "wakeUp success: $word")
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            tts.play("我在")
-
-                            delay(500)
-
-                            val text = asr.startListening()
-                            if (text.isEmpty()) {
-                                Log.d(TAG, "asr result is empty")
-                                tts.play("我什么也没听到")
-                            } else {
-                                Log.d(TAG, "asr result: $text")
-                                val response = chat.chat(text)
-                                if (response.isEmpty()) {
-                                    tts.play("我不知道该怎么回答你")
-                                } else {
-                                    tts.play(response)
-                                }
-                            }
-                        }
-                    }
-
-                    override fun onError(errorCode: Int, errorMessage: String) {
-                        Log.e(TAG, "errorCode: $errorCode, errorMessage: $errorMessage")
-                        Toast.makeText(
-                            this@MainActivity,
-                            "errorCode: $errorCode, errorMessage: $errorMessage",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                    override fun onStop() {
-                        Log.i(TAG, "wakeUp stopped")
-                    }
-                })
+                wakeUp.setWakeUpListener(wakeUpListener)
                 wakeUp.start()
             }
         }
@@ -169,9 +171,21 @@ class MainActivity : AppCompatActivity() {
         val smartAssistant = SmartAssistant(this)
         tts = smartAssistant.createTts(TtsType.Ali)
 
+//        wakeUp = smartAssistant.createWakeUp(
+//            WakeUpType.Baidu,
+//            mapOf(Pair("kws-file", "assets:///WakeUp.bin"))
+//        )
         wakeUp = smartAssistant.createWakeUp(
-            WakeUpType.Baidu,
-            mapOf(Pair("kws-file", "assets:///WakeUp.bin"))
+            WakeUpType.Picovoice,
+            mapOf(
+                Pair(
+                    "keyword_paths", listOf(
+                        "wakeup/picovoice/Hi-Joey_en_android_v2_2_0.ppn",
+                        "wakeup/picovoice/Hello-Joey_en_android_v2_2_0.ppn"
+                    )
+                )
+            ),
+            wakeUpListener
         )
 
         asr = smartAssistant.createAsr(

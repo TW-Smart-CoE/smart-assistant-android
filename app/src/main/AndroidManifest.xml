@@ -44,6 +44,9 @@
         <meta-data
             android:name="OPENAI_API_KEY"
             android:value="${OPENAI_API_KEY}" />
+        <meta-data
+            android:name="PICOVOICE_ACCESS_KEY"
+            android:value="${PICOVOICE_ACCESS_KEY}" />
     </application>
 
 </manifest>

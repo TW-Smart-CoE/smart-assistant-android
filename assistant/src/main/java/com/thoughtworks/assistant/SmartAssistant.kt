@@ -11,11 +11,12 @@ import com.thoughtworks.assistant.abilities.tts.Tts
 import com.thoughtworks.assistant.abilities.tts.TtsType
 import com.thoughtworks.assistant.abilities.tts.ali.AliTts
 import com.thoughtworks.assistant.abilities.wakeup.WakeUp
+import com.thoughtworks.assistant.abilities.wakeup.WakeUpListener
 import com.thoughtworks.assistant.abilities.wakeup.WakeUpType
 import com.thoughtworks.assistant.abilities.wakeup.baidu.BaiduWakeUp
+import com.thoughtworks.assistant.abilities.wakeup.picovoice.PicovoiceWakeUp
 
 class SmartAssistant(private val context: Context) {
-
     fun createTts(ttsType: TtsType = TtsType.Ali, params: Map<String, Any> = emptyMap()): Tts {
         check(ttsType == TtsType.Ali) {
             "Not supported type: ${ttsType.name}!"
@@ -25,12 +26,20 @@ class SmartAssistant(private val context: Context) {
 
     fun createWakeUp(
         wakeUpType: WakeUpType = WakeUpType.Baidu,
-        params: Map<String, String> = emptyMap()
+        params: Map<String, Any> = emptyMap(),
+        wakepListener: WakeUpListener? = null
     ): WakeUp {
-        check(wakeUpType == WakeUpType.Baidu) {
+        check(
+            wakeUpType == WakeUpType.Baidu ||
+                    wakeUpType == WakeUpType.Picovoice
+        ) {
             "Not supported type: ${wakeUpType.name}!"
         }
-        return BaiduWakeUp(context, params)
+
+        return when (wakeUpType) {
+            WakeUpType.Baidu -> BaiduWakeUp(context, params, wakepListener)
+            WakeUpType.Picovoice -> PicovoiceWakeUp(context, params, wakepListener)
+        }
     }
 
     fun createAsr(asrType: AsrType = AsrType.Ali, params: Map<String, Any> = emptyMap()): Asr {

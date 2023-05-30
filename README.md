@@ -20,7 +20,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation("com.thoughtworks.smart-assistant:assistant:0.4.2")
+    implementation("com.thoughtworks.smart-assistant:assistant:0.5.0")
 }
 ```
 
@@ -40,7 +40,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation "com.thoughtworks.smart-assistant:assistant:0.4.2"
+    implementation "com.thoughtworks.smart-assistant:assistant:0.5.0"
 }
 ```
 
@@ -148,7 +148,7 @@ lifecycleScope.launch {
 
 #### 后台配置
 
-- 请前往[百度AI唤醒](https://ai.baidu.com/tech/speech/wake)。 设置唤醒词并下载 WakeUp.bin 文件。 将 WakeUp.bin 文件放在 _project/app/src/main/assets_ 目录下。
+- 请前往[百度AI唤醒](https://ai.baidu.com/tech/speech/wake)。 设置唤醒词并下载 WakeUp.bin 文件。 将 WakeUp.bin 文件放在 _project/app/src/main/assets_ 目录下（只能放到 assets 根目录下，不能创建子目录，否则 SDK 会找不到这个文件）。
 - 请前往[百度AI控制台](https://console.bce.baidu.com/ai/?_=1684837854400#/ai/speech/app/list)创建一个应用程序。确保包名称与 applicationId 完全相同。创建应用程序后，您将获得 APP_ID, API_KEY 和 SECRET_KEY。
 
 #### SDK/API Key 配置
@@ -178,6 +178,67 @@ val smartAssistant = SmartAssistant(this)
 wakeUp = smartAssistant.createWakeUp(
     WakeUpType.Baidu,
     mapOf(Pair("kws-file", "assets:///WakeUp.bin"))
+)
+
+findViewById<Button>(R.id.btn_start_wakeup).setOnClickListener {
+    lifecycleScope.launch {
+        // set callback listener
+        wakeUp.setWakeUpListener(object : WakeUpListener {
+            override fun onSuccess(word: String) {
+                Log.d(TAG, "wakeUp success: $word")
+            }
+
+            override fun onError(errorCode: Int, errorMessage: String) {
+                Log.e(TAG, "errorCode: $errorCode, errorMessage: $errorMessage")
+            }
+
+            override fun onStop() {
+                Log.d(TAG, "wakeUp stopped")
+            }
+        })
+        
+        // start wakeup
+        wakeUp.start()
+    }
+}
+
+findViewById<Button>(R.id.btn_stop_wakeup).setOnClickListener {
+    lifecycleScope.launch {
+        // stop wakeup
+        wakeUp.stop()
+    }
+}
+```
+
+### Picovoice WakeUp
+
+#### 后台配置
+
+- 请前往[picovoice 控制台](https://console.picovoice.ai/)注册登录并拿到 AccessKey。
+- 请前往[picovoice 唤醒词](https://console.picovoice.ai/ppn)。设置唤醒词并下载 ppn 文件。 将 ppn 文件放在 _project/app/src/main/assets_ 目录下，可以存放到子目录下。如果需要多个唤醒词，可下载多个文件。
+
+#### SDK/API Key 配置
+AndroidManifest.xml 中 application 标签下配置：
+```xml
+<meta-data
+    android:name="PICOVOICE_ACCESS_KEY"
+    android:value="${PICOVOICE_ACCESS_KEY}" />
+```
+
+#### 示例代码
+```kotlin
+val smartAssistant = SmartAssistant(this)
+wakeUp = smartAssistant.createWakeUp(
+    WakeUpType.Picovoice,
+    mapOf(
+        Pair(
+            "keyword_paths", listOf(
+                "wakeup/picovoice/Hi-Joey_en_android_v2_2_0.ppn", // 注意这里的文件路径不要加 assets:/// 前缀
+                "wakeup/picovoice/Hello-Joey_en_android_v2_2_0.ppn"
+            )
+        )
+    ),
+    wakeUpListener
 )
 
 findViewById<Button>(R.id.btn_start_wakeup).setOnClickListener {

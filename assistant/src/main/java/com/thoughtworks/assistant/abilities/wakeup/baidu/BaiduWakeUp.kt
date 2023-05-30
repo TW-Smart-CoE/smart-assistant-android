@@ -12,7 +12,11 @@ import com.thoughtworks.assistant.abilities.wakeup.WakeUpListener
 import com.thoughtworks.assistant.abilities.wakeup.baidu.BaiduWakeUpConstant.TAG
 import org.json.JSONObject
 
-class BaiduWakeUp(private val context: Context, private val params: Map<String, String>) : WakeUp {
+class BaiduWakeUp(
+    private val context: Context,
+    private val params: Map<String, Any> = emptyMap(),
+    wakeUpListener: WakeUpListener? = null
+    ) : WakeUp {
     private var isInited = false
 
     private var wakeUpListener: WakeUpListener? = null
@@ -23,25 +27,26 @@ class BaiduWakeUp(private val context: Context, private val params: Map<String, 
                 SpeechConstant.CALLBACK_EVENT_WAKEUP_SUCCESS -> {
                     val result = WakeUpResult.parseJson(name, params)
                     if (result == null) {
-                        wakeUpListener?.onError(-1, "parse json error")
+                        this.wakeUpListener?.onError(-1, "parse json error")
                     } else {
-                        wakeUpListener?.onSuccess(result.word ?: "")
+                        this.wakeUpListener?.onSuccess()
                     }
                 }
 
                 SpeechConstant.CALLBACK_EVENT_WAKEUP_ERROR -> {
                     val errorCode = JSONObject(params).optInt("error")
                     val errorMessage = JSONObject(params).optString("desc")
-                    wakeUpListener?.onError(errorCode, errorMessage)
+                    this.wakeUpListener?.onError(errorCode, errorMessage)
                 }
 
                 SpeechConstant.CALLBACK_EVENT_WAKEUP_STOPED -> {
-                    wakeUpListener?.onStop()
+                    this.wakeUpListener?.onStop()
                 }
             }
         }
 
     init {
+        this.wakeUpListener = wakeUpListener
         wp.registerListener(eventListener)
     }
 

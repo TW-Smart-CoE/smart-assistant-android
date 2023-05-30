@@ -66,6 +66,9 @@ dependencies {
     implementation("com.alibaba:fastjson:1.1.46.android")
     implementation("com.thoughtworks.smart-assistant:nuisdk:0.1.0")
 
+    // picovoice
+    implementation("ai.picovoice:porcupine-android:2.2.0")
+
     testImplementation(libs.junit4)
     testImplementation(libs.androidx.junit.ktx)
 
@@ -99,7 +102,7 @@ configure<PublishingExtension> {
             afterEvaluate {
                 from(components.getByName("devRelease"))
                 groupId = "com.thoughtworks.smart-assistant"
-                version = "0.4.2"
+                version = "0.5.0"
             }
         }
     }

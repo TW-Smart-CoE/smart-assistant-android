@@ -33,6 +33,7 @@ androidApplication {
         manifestPlaceholders["BAIDU_IVS_API_KEY"] = System.getenv("BAIDU_IVS_API_KEY") ?: ""
         manifestPlaceholders["BAIDU_IVS_SECRET_KEY"] = System.getenv("BAIDU_IVS_SECRET_KEY") ?: ""
         manifestPlaceholders["OPENAI_API_KEY"] = System.getenv("OPENAI_API_KEY") ?: ""
+        manifestPlaceholders["PICOVOICE_ACCESS_KEY"] = System.getenv("PICOVOICE_ACCESS_KEY") ?: ""
     }
 
     enableCompose()

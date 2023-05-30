@@ -1,7 +1,7 @@
 package com.thoughtworks.assistant.abilities.wakeup
 
 interface WakeUpListener {
-    fun onSuccess(word: String)
+    fun onSuccess()
     fun onError(errorCode: Int, errorMessage: String)
     fun onStop()
 }

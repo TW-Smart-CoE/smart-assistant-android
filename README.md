@@ -1,6 +1,12 @@
 # smart-assistant
 
-smart-assistant 封装了 Baidu，Alibaba，OpenAI 等厂商提供的 ASR，TTS，WakeUp，ChatGpt 等智能语音交互服务 SDK。给开发者提供简单便捷的使用接口，无需关注复杂的 SDK 集成和适配。
+smart-assistant 封装了各云服务厂商提供的 ASR，TTS，WakeUp，ChatGpt 等智能语音交互服务 SDK。给开发者提供简单便捷的使用接口，无需关注复杂的 SDK 集成和适配。
+
+当前支持的能力：
+- ASR 语音识别：阿里
+- TTS 语音转文字：阿里
+- WakeUp 语音唤醒：百度（中文），Picovoice（海外）
+- Chat 智能聊天：ChatGpt
 
 ## 依赖配置
 

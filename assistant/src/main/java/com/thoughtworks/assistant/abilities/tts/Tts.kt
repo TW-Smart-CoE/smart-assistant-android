@@ -7,5 +7,7 @@ interface Tts {
 
     suspend fun play(text: String)
 
+    fun stopPlay()
+
     fun release()
 }

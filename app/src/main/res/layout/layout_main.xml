@@ -5,12 +5,19 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/btn_click"
+        android:id="@+id/btn_play_tts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_marginTop="50dp"
-        android:text="@string/test" />
+        android:text="@string/play_tts" />
+    <Button
+        android:id="@+id/btn_stop_tts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/stop_tts" />
     <Button
         android:id="@+id/btn_start_wakeup"
         android:layout_width="match_parent"

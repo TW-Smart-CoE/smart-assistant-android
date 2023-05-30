@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUI() {
-        findViewById<Button>(R.id.btn_click).setOnClickListener {
+        findViewById<Button>(R.id.btn_play_tts).setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
                 tts.play("hello world")
                 asr.stopListening()
@@ -109,6 +109,10 @@ class MainActivity : AppCompatActivity() {
                 val file = tts.createAudioFile("hello world", "file.pcm")
                 Log.d(TAG, file.absolutePath)
             }
+        }
+
+        findViewById<Button>(R.id.btn_stop_tts).setOnClickListener {
+            tts.stopPlay()
         }
 
         findViewById<Button>(R.id.btn_start_wakeup).setOnClickListener {

@@ -15,6 +15,7 @@ class AliTts(private val context: Context, params: Map<String, Any>) : Tts {
     }
 
     private val aliTtsCreator = AliTtsCreator(params)
+    private var ttsPlayer: AliTtsPlayer? = null
 
     override suspend fun createAudioFile(text: String, fileName: String): File {
         val savePath = File(context.cacheDir, AliTtsConstant.DEFAULT_FILE_SAVE_DIR)
@@ -33,12 +34,17 @@ class AliTts(private val context: Context, params: Map<String, Any>) : Tts {
     }
 
     override suspend fun play(text: String) {
-        val ttsPlayer = AliTtsPlayer()
+        ttsPlayer = AliTtsPlayer()
         aliTtsCreator.create(text)
-            .onEach { ttsPlayer.writeData(it.data) }
+            .onEach { ttsPlayer?.writeData(it.data) }
             .flowOn(Dispatchers.IO)
-            .onCompletion { ttsPlayer.release() }
+            .onCompletion { stopPlay() }
             .collect()
+    }
+
+    override fun stopPlay() {
+        ttsPlayer?.release()
+        ttsPlayer = null
     }
 
     override fun release() {

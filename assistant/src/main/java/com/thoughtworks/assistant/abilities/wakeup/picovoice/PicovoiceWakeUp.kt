@@ -27,7 +27,7 @@ class PicovoiceWakeUp(
 
         try {
             porcupineManager = PorcupineManager.Builder()
-                .setAccessKey(context.getManifestMetaData(META_DATA_ACCESS_KEY))
+                .setAccessKey(params["access_key"]?.toString() ?: context.getManifestMetaData(META_DATA_ACCESS_KEY))
 //                .setKeywords(arrayOf(Porcupine.BuiltInKeyword.PORCUPINE, Porcupine.BuiltInKeyword.BUMBLEBEE))
                 .setKeywordPaths(keywordArray)
                 .build(context) { keywordIndex ->

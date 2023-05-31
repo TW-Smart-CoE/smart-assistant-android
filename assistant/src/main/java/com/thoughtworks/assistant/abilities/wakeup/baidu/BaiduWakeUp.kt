@@ -57,11 +57,11 @@ class BaiduWakeUp(
     override fun start() {
         val wpParams: MutableMap<String, Any> = mutableMapOf()
         wpParams[SpeechConstant.APP_ID] =
-            context.getManifestMetaData(BaiduWakeUpConstant.META_DATA_APP_ID)
+            params["app_id"]?.toString() ?: context.getManifestMetaData(BaiduWakeUpConstant.META_DATA_APP_ID)
         wpParams[SpeechConstant.APP_KEY] =
-            context.getManifestMetaData(BaiduWakeUpConstant.META_DATA_API_KEY)
+            params["api_key"]?.toString() ?: context.getManifestMetaData(BaiduWakeUpConstant.META_DATA_API_KEY)
         wpParams[SpeechConstant.SECRET] =
-            context.getManifestMetaData(BaiduWakeUpConstant.META_DATA_SECRET_KEY)
+            params["secret_key"]?.toString() ?: context.getManifestMetaData(BaiduWakeUpConstant.META_DATA_SECRET_KEY)
 
         wpParams[SpeechConstant.WP_WORDS_FILE] =
             params[SpeechConstant.WP_WORDS_FILE] ?: "assets:///WakeUp.bin"

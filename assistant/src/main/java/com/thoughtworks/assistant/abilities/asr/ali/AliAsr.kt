@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.flowOn
 
 class AliAsr(context: Context, params: Map<String, Any>) : Asr {
     init {
-        AliAsrInitializer.init(context)
+        AliAsrInitializer.init(context, params)
     }
 
     private val aliAsrCreator = AliAsrCreator(context, params)

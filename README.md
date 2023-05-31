@@ -2,7 +2,7 @@
 
 smart-assistant 封装了各云服务厂商提供的 ASR，TTS，WakeUp，ChatGpt 等智能语音交互服务 SDK。给开发者提供简单便捷的使用接口，无需关注复杂的 SDK 集成和适配。
 
-当前支持的能力：
+目前支持的能力：
 - ASR 语音识别：阿里
 - TTS 语音转文字：阿里
 - WakeUp 语音唤醒：百度（中文），Picovoice（海外）
@@ -26,7 +26,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation("com.thoughtworks.smart-assistant:assistant:0.5.0")
+    implementation("com.thoughtworks.smart-assistant:assistant:0.5.1")
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation "com.thoughtworks.smart-assistant:assistant:0.5.0"
+    implementation "com.thoughtworks.smart-assistant:assistant:0.5.1"
 }
 ```
 
@@ -77,7 +77,17 @@ AndroidManifest.xml 中 application 标签下配置：
 
 ```kotlin
 val smartAssistant = SmartAssistant(this)
-val tts = smartAssistant.createTts(TtsType.Ali)
+val tts = smartAssistant.createTts(TtsType.Ali,
+    mapOf(
+        Pair("font_name", "siqi"),  // 发音人，默认配置为 siqi，可以不用配置。如需配置不同人声，请参考官网帮助文档中的接口说明。
+        Pair("enable_subtitle", "1"),  // 字级别音素边界功能开关，默认配置为 1，可以不用配置。
+        Pair("sample_rate", 16000),  // 音频采样率，默认配置为 16000，可以不用配置。
+        Pair("encode_type", "pcm"),  // 音频编码格式，默认配置为 pcm，可以不用配置。
+        // Pair("access_key", ""),  // 优先使用这里的 access_key。如果没有，使用 AndroidManifest.xml 中的 ALI_IVS_ACCESS_KEY。
+        // Pair("access_key_secret", ""),  // 优先使用这里的  access_key_secret。如果没有，使用 AndroidManifest.xml 中的 ALI_IVS_ACCESS_KEY_SECRET。
+        // Pair("app_key", ""),  // 优先使用这里的 app_key，如果没有。使用 AndroidManifest.xml 中的 ALI_IVS_APP_KEY。
+    )
+)
 
 // play a text directly:
 lifecycleScope.launch {
@@ -126,7 +136,10 @@ val asr = smartAssistant.createAsr(
     mapOf(
         Pair("enable_voice_detection", true),
         Pair("max_start_silence", 10000),
-        Pair("max_end_silence", 800)
+        Pair("max_end_silence", 800),
+        // Pair("access_key", ""),  // 优先使用这里的 access_key。如果没有，使用 AndroidManifest.xml 中的 ALI_IVS_ACCESS_KEY。
+        // Pair("access_key_secret", ""),  // 优先使用这里的  access_key_secret。如果没有，使用 AndroidManifest.xml 中的 ALI_IVS_ACCESS_KEY_SECRET。
+        // Pair("app_key", ""),  // 优先使用这里的 app_key。如果没有，使用 AndroidManifest.xml 中的 ALI_IVS_APP_KEY。
     )
 )
 
@@ -180,10 +193,14 @@ AndroidManifest.xml 中 application 标签下配置：
 #### 示例代码
 ```kotlin
 val smartAssistant = SmartAssistant(this)
-
-wakeUp = smartAssistant.createWakeUp(
+val wakeUp = smartAssistant.createWakeUp(
     WakeUpType.Baidu,
-    mapOf(Pair("kws-file", "assets:///WakeUp.bin"))
+    mapOf(
+        Pair("kws-file", "assets:///WakeUp.bin"),
+        // Pair("app_id", ""),  // 优先使用这里的 app_id。如果没有，使用 AndroidManifest.xml 中的 BAIDU_IVS_APP_ID。
+        // Pair("api_key", ""),  // 优先使用这里的 api_key。如果没有，使用 AndroidManifest.xml 中的 BAIDU_IVS_API_KEY。
+        // Pair("secret_key", ""),  // 优先使用这里的 secret_key。如果没有，使用 AndroidManifest.xml 中的 BAIDU_IVS_SECRET_KEY。
+    )
 )
 
 findViewById<Button>(R.id.btn_start_wakeup).setOnClickListener {
@@ -242,7 +259,8 @@ wakeUp = smartAssistant.createWakeUp(
                 "wakeup/picovoice/Hi-Joey_en_android_v2_2_0.ppn", // 注意这里的文件路径不要加 assets:/// 前缀
                 "wakeup/picovoice/Hello-Joey_en_android_v2_2_0.ppn"
             )
-        )
+        ),
+        // Pair("access_key", ""),  // 优先使用这里的 access_key。如果没有，使用 AndroidManifest.xml 中的 PICOVOICE_ACCESS_KEY。
     ),
     wakeUpListener
 )
@@ -300,9 +318,11 @@ val smartAssistant = SmartAssistant(this)
 val chat = smartAssistant.createChat(
     ChatType.ChatGpt,
     mapOf(
-        Pair("base_url", "https://api.openai.com"),
-        Pair("model", "gpt-3.5-turbo-0301"),
-        Pair("temperature", 1.0f),
+        Pair("base_url", "https://api.openai.com"),  // OpenAI API 地址。默认值为 https://api.openai.com。
+        Pair("model", "gpt-3.5-turbo-0301"),  // 模型名称。默认为 gpt-3.5-turbo-0301。
+        Pair("temperature", 1.0f),  // 生成文本的多样性。值越大，生成的文本越多样化。默认为 1.0f。
+        Pair("max_history_len", 50), // 最大聊天历史记录长度。默认为 50。
+        // Pair("api_key", ""),  // 优先使用这里的 api_key。如果没有，使用 AndroidManifest.xml 中的 OPENAI_API_KEY。
         Pair(
             "system_prompt", listOf(
                 "你是一个资深的游戏玩家，你所回答的问题，都必须限定在这个知识领域之内",

@@ -169,31 +169,51 @@ class MainActivity : AppCompatActivity() {
 
     private fun initSmartAssistant() {
         val smartAssistant = SmartAssistant(this)
-        tts = smartAssistant.createTts(TtsType.Ali)
-
-//        wakeUp = smartAssistant.createWakeUp(
-//            WakeUpType.Baidu,
-//            mapOf(Pair("kws-file", "assets:///WakeUp.bin"))
-//        )
-        wakeUp = smartAssistant.createWakeUp(
-            WakeUpType.Picovoice,
+        tts = smartAssistant.createTts(TtsType.Ali,
             mapOf(
-                Pair(
-                    "keyword_paths", listOf(
-                        "wakeup/picovoice/Hi-Joey_en_android_v2_2_0.ppn",
-                        "wakeup/picovoice/Hello-Joey_en_android_v2_2_0.ppn"
-                    )
-                )
-            ),
-            wakeUpListener
+                Pair("font_name", "siqi"),
+                Pair("enable_subtitle", "1"),
+                Pair("sample_rate", 16000),
+                Pair("encode_type", "pcm"),
+//                Pair("access_key", ""),
+//                Pair("access_key_secret", ""),
+//                Pair("app_key", "")
+            )
         )
+
+        wakeUp = smartAssistant.createWakeUp(
+            WakeUpType.Baidu,
+            mapOf(
+                Pair("kws-file", "assets:///WakeUp.bin"),
+//                Pair("app_id", ""),
+//                Pair("api_key", ""),
+//                Pair("secret_key", "")
+            )
+        )
+//        wakeUp = smartAssistant.createWakeUp(
+//            WakeUpType.Picovoice,
+//            mapOf(
+//                Pair(
+//                    "keyword_paths",
+//                    listOf(
+//                        "wakeup/picovoice/Hi-Joey_en_android_v2_2_0.ppn",
+//                        "wakeup/picovoice/Hello-Joey_en_android_v2_2_0.ppn"
+//                    ),
+//                ),
+//                Pair("access_key", "")
+//            ),
+//            wakeUpListener
+//        )
 
         asr = smartAssistant.createAsr(
             AsrType.Ali,
             mapOf(
                 Pair("enable_voice_detection", true),
                 Pair("max_start_silence", 10000),
-                Pair("max_end_silence", 800)
+                Pair("max_end_silence", 800),
+//                Pair("access_key", ""),
+//                Pair("access_key_secret", ""),
+//                Pair("app_key", ""),
             )
         )
 
@@ -203,6 +223,8 @@ class MainActivity : AppCompatActivity() {
                 Pair("base_url", "https://api.openai.com"),
                 Pair("model", "gpt-3.5-turbo-0301"),
                 Pair("temperature", 1.0f),
+                Pair("max_history_len", 20),
+//                Pair("api_key", ""),
                 Pair(
                     "system_prompt", listOf(
                         "你是一个资深的游戏玩家，你所回答的问题，都必须限定在这个知识领域之内",

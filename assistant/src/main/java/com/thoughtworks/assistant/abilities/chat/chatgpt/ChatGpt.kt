@@ -28,7 +28,7 @@ class ChatGpt(
     }
 
     private var baseUrl: String = (params["base_url"] ?: "https://api.openai.com/") as String
-    private var maxHistoryLen: Int = (params["max_history_len"] ?: 100) as Int
+    private var maxHistoryLen: Int = (params["max_history_len"] ?: 50) as Int
     private var temperature: Float = (params["temperature"] ?: 1f) as Float
     private var model: String = (params["model"] ?: DEFAULT_MODEL) as String
     private var maxTokens: Int = (params["max_tokens"] ?: 2048) as Int
@@ -50,7 +50,7 @@ class ChatGpt(
             val builder = chain.request().newBuilder()
             builder.header(
                 "Authorization",
-                "Bearer ${context.getManifestMetaData(META_OPENAI_API_KEY)}"
+                "Bearer ${params["api_key"]?.toString() ?: context.getManifestMetaData(META_OPENAI_API_KEY)}"
             )
             builder.header("content-type", "application/json")
             return@addInterceptor chain.proceed(builder.build())

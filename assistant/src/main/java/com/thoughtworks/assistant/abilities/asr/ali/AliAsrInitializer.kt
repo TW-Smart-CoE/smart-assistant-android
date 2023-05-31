@@ -29,9 +29,12 @@ object AliAsrInitializer {
 
     val coroutineScope = MainScope()
     var initJob: Job? = null
+    var params = mapOf<String, Any>()
 
-    fun init(context: Context) {
+    fun init(context: Context, params: Map<String, Any>) {
         if (isInit) return
+
+        this.params = params
 
         initJob = coroutineScope.launch {
             copySdkAssets(context)
@@ -43,9 +46,9 @@ object AliAsrInitializer {
     }
 
     private suspend fun createConfig(context: Context): AliAsrConfig {
-        val accessKey = context.getManifestMetaData(META_DATA_ACCESS_KEY)
-        val accessKeySecret = context.getManifestMetaData(META_DATA_ACCESS_KEY_SECRET)
-        val appKey = context.getManifestMetaData(META_DATA_APP_KEY)
+        val accessKey = params["access_key"]?.toString() ?: context.getManifestMetaData(META_DATA_ACCESS_KEY)
+        val accessKeySecret = params["access_key_secret"]?.toString() ?: context.getManifestMetaData(META_DATA_ACCESS_KEY_SECRET)
+        val appKey = params["app_key"]?.toString() ?: context.getManifestMetaData(META_DATA_APP_KEY)
 
         val deviceId = context.getDeviceId()
         val workspace = CommonUtils.getModelPath(context)

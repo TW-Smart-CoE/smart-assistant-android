@@ -11,7 +11,7 @@ import java.io.File
 
 class AliTts(private val context: Context, params: Map<String, Any>) : Tts {
     init {
-        AliTtsInitializer.init(context)
+        AliTtsInitializer.init(context, params)
     }
 
     private val aliTtsCreator = AliTtsCreator(params)

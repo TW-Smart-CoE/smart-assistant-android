@@ -28,3 +28,6 @@
 -keep @com.thoughtworks.ark.router.annotation.Scheme class * {*;}
 -keep @com.thoughtworks.ark.router.annotation.Service class * {*;}
 -keep @com.thoughtworks.ark.router.annotation.ServiceImpl class * {*;}
+
+-keep class com.alibaba.idst.nui.** { *; }
+-keep class org.apache.** { *; }

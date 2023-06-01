@@ -146,6 +146,7 @@ class ChatGpt(
                     GptMessage(ROLE_SYSTEM, prompt as String)
                 }.toMutableList()
             } else {
+                systemPromptList.clear()
                 systemPromptList.add(GptMessage(ROLE_SYSTEM, it as String))
             }
         }

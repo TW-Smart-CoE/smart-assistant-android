@@ -1,7 +1,7 @@
 package com.thoughtworks.assistant.abilities.tts.ali
 
 object AliTtsConstant {
-    const val TAG = "AliTts"
+    const val TAG = "SmartAssistant.AliTts"
 
     // manifest 配置key
     const val META_DATA_ACCESS_KEY = "ALI_IVS_ACCESS_KEY"

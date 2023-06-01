@@ -1,7 +1,7 @@
 package com.thoughtworks.assistant.abilities.asr.ali
 
 object AliAsrConstant {
-    const val TAG = "AliAsr"
+    const val TAG = "SmartAssistant.AliAsr"
 
     // manifest 配置key
     const val META_DATA_ACCESS_KEY = "ALI_IVS_ACCESS_KEY"

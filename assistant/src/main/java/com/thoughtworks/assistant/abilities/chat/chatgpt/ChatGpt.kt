@@ -81,9 +81,12 @@ class ChatGpt(
     override suspend fun chat(content: String): String {
         val reqMessage = GptMessage(ROLE_USER, content)
 
+        val messages = systemPromptList + conversionList + listOf(reqMessage)
+        Log.d(TAG, "model: $model, temperature: $temperature, maxTokens: $maxTokens")
+        Log.d(TAG, "messages: $messages")
         val chatRequest = ChatGptRequest(
             model = model,
-            messages = systemPromptList + conversionList + listOf(reqMessage),
+            messages = messages,
             temperature = temperature,
             maxTokens = maxTokens,
         )
@@ -157,7 +160,7 @@ class ChatGpt(
     }
 
     companion object {
-        private const val TAG = "ChatGpt"
+        private const val TAG = "SmartAssistant.ChatGpt"
         private const val ROLE_SYSTEM = "system"
         private const val ROLE_USER = "user"
         private const val ROLE_ASSISTANT = "assistant"

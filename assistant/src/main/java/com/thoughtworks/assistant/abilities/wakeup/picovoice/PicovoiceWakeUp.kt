@@ -62,7 +62,7 @@ class PicovoiceWakeUp(
     }
 
     companion object {
-        private const val TAG = "PicovoiceWakeUp"
+        private const val TAG = "SmartAssistant.PicovoiceWakeUp"
         private const val META_DATA_ACCESS_KEY = "PICOVOICE_ACCESS_KEY"
     }
 }

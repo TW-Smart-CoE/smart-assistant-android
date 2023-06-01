@@ -42,6 +42,10 @@ class AliTts(private val context: Context, params: Map<String, Any>) : Tts {
             .collect()
     }
 
+    override fun configure(params: Map<String, Any>) {
+        aliTtsCreator.configure(params)
+    }
+
     override fun stopPlay() {
         ttsPlayer?.release()
         ttsPlayer = null

@@ -7,6 +7,8 @@ interface Tts {
 
     suspend fun play(text: String)
 
+    fun configure(params: Map<String, Any>)
+
     fun stopPlay()
 
     fun release()

@@ -101,12 +101,6 @@ class AliTtsCreator(private val params: Map<String, Any>) {
         ttsInstance.release()
     }
 
-    fun configure(params: Map<String, Any>) {
-        params.forEach {
-            ttsInstance.setparamTts(it.key, it.value.toString())
-        }
-    }
-
     companion object {
         const val MAX_TEXT_NUM = 300
     }

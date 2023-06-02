@@ -1,6 +1,7 @@
 @file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 
 import com.thoughtworks.ark.buildlogic.androidLibrary
+import org.gradle.api.tasks.bundling.Jar
 
 plugins {
     alias(libs.plugins.library)
@@ -84,6 +85,11 @@ dependencies {
 
 apply(plugin = "maven-publish")
 
+tasks.register<Jar>("sourceJar") {
+    from(android.sourceSets["main"].java.srcDirs)
+    classifier = "sources"
+}
+
 // 执行 ./gradlew publish 上传 smart-assistant 到 maven
 configure<PublishingExtension> {
     publications {
@@ -102,7 +108,9 @@ configure<PublishingExtension> {
             afterEvaluate {
                 from(components.getByName("devRelease"))
                 groupId = "com.thoughtworks.smart-assistant"
-                version = "0.5.6"
+                version = "0.5.7"
+
+                artifact(tasks["sourceJar"])
             }
         }
     }

@@ -10,7 +10,7 @@ import com.thoughtworks.assistant.utils.Utils.getManifestMetaData
 class PicovoiceWakeUp(
     context: Context,
     params: Map<String, Any> = emptyMap(),
-    wakeUpListener: WakeUpListener? = null
+    listener: WakeUpListener? = null
 ) :
     WakeUp {
     private var keywordCount = 0
@@ -18,7 +18,7 @@ class PicovoiceWakeUp(
     private var porcupineManager: PorcupineManager? = null
 
     init {
-        this.wakeUpListener = wakeUpListener
+        this.wakeUpListener = listener
 
         val keywordList = (params["keyword_paths"] as List<*>)
         keywordCount = keywordList.size
@@ -40,12 +40,12 @@ class PicovoiceWakeUp(
                 }
         } catch (e: Exception) {
             Log.e(TAG, e.message ?: "unknown error")
-            wakeUpListener?.onError(-1, e.message ?: "unknown error")
+            listener?.onError(-1, e.message ?: "unknown error")
         }
     }
 
-    override fun setWakeUpListener(wakeUpListener: WakeUpListener?) {
-        this.wakeUpListener = wakeUpListener
+    override fun setWakeUpListener(listener: WakeUpListener?) {
+        this.wakeUpListener = listener
     }
 
     override fun start() {

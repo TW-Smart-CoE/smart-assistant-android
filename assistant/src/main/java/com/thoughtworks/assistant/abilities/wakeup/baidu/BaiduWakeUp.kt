@@ -1,7 +1,6 @@
 package com.thoughtworks.assistant.abilities.wakeup.baidu
 
 import android.content.Context
-import android.util.Log
 import com.baidu.speech.EventListener
 import com.baidu.speech.EventManager
 import com.baidu.speech.EventManagerFactory
@@ -9,13 +8,12 @@ import com.baidu.speech.asr.SpeechConstant
 import com.thoughtworks.assistant.utils.Utils.getManifestMetaData
 import com.thoughtworks.assistant.abilities.wakeup.WakeUp
 import com.thoughtworks.assistant.abilities.wakeup.WakeUpListener
-import com.thoughtworks.assistant.abilities.wakeup.baidu.BaiduWakeUpConstant.TAG
 import org.json.JSONObject
 
 class BaiduWakeUp(
     private val context: Context,
     private val params: Map<String, Any> = emptyMap(),
-    wakeUpListener: WakeUpListener? = null
+    listener: WakeUpListener? = null
     ) : WakeUp {
     private var isInited = false
 
@@ -46,7 +44,7 @@ class BaiduWakeUp(
         }
 
     init {
-        this.wakeUpListener = wakeUpListener
+        this.wakeUpListener = listener
         wp.registerListener(eventListener)
     }
 

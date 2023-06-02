@@ -181,29 +181,29 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-        wakeUp = smartAssistant.createWakeUp(
-            WakeUpType.Baidu,
-            mapOf(
-                Pair("kws-file", "assets:///WakeUp.bin"),
-//                Pair("app_id", ""),
-//                Pair("api_key", ""),
-//                Pair("secret_key", "")
-            )
-        )
 //        wakeUp = smartAssistant.createWakeUp(
-//            WakeUpType.Picovoice,
+//            WakeUpType.Baidu,
 //            mapOf(
-//                Pair(
-//                    "keyword_paths",
-//                    listOf(
-//                        "wakeup/picovoice/Hi-Joey_en_android_v2_2_0.ppn",
-//                        "wakeup/picovoice/Hello-Joey_en_android_v2_2_0.ppn"
-//                    ),
-//                ),
-//                Pair("access_key", "")
-//            ),
-//            wakeUpListener
+//                Pair("kws-file", "assets:///WakeUp.bin"),
+////                Pair("app_id", ""),
+////                Pair("api_key", ""),
+////                Pair("secret_key", "")
+//            )
 //        )
+        wakeUp = smartAssistant.createWakeUp(
+            WakeUpType.Picovoice,
+            mapOf(
+                Pair(
+                    "keyword_paths",
+                    listOf(
+                        "wakeup/picovoice/Hi-Joey_en_android_v2_2_0.ppn",
+                        "wakeup/picovoice/Hello-Joey_en_android_v2_2_0.ppn"
+                    ),
+                ),
+//                Pair("access_key", "")
+            ),
+            wakeUpListener
+        )
 
         asr = smartAssistant.createAsr(
             AsrType.Ali,

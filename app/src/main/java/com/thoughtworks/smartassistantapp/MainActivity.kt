@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.thoughtworks.assistant.SmartAssistant
 import com.thoughtworks.assistant.abilities.asr.Asr
+import com.thoughtworks.assistant.abilities.asr.AsrListener
 import com.thoughtworks.assistant.abilities.asr.AsrType
 import com.thoughtworks.assistant.abilities.chat.Chat
 import com.thoughtworks.assistant.abilities.chat.ChatType
@@ -165,6 +166,19 @@ class MainActivity : AppCompatActivity() {
                 wakeUp.stop()
             }
         }
+
+        findViewById<Button>(R.id.btn_start_asr).setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                val text = asr.startListening()
+                Log.d(TAG, "asr result: $text")
+            }
+        }
+
+        findViewById<Button>(R.id.btn_stop_asr).setOnClickListener {
+            lifecycleScope.launch(Dispatchers.IO) {
+                asr.stopListening()
+            }
+        }
     }
 
     private fun initSmartAssistant() {
@@ -181,29 +195,29 @@ class MainActivity : AppCompatActivity() {
             )
         )
 
-//        wakeUp = smartAssistant.createWakeUp(
-//            WakeUpType.Baidu,
-//            mapOf(
-//                Pair("kws-file", "assets:///WakeUp.bin"),
-////                Pair("app_id", ""),
-////                Pair("api_key", ""),
-////                Pair("secret_key", "")
-//            )
-//        )
         wakeUp = smartAssistant.createWakeUp(
-            WakeUpType.Picovoice,
+            WakeUpType.Baidu,
             mapOf(
-                Pair(
-                    "keyword_paths",
-                    listOf(
-                        "wakeup/picovoice/Hi-Joey_en_android_v2_2_0.ppn",
-                        "wakeup/picovoice/Hello-Joey_en_android_v2_2_0.ppn"
-                    ),
-                ),
-//                Pair("access_key", "")
-            ),
-            wakeUpListener
+                Pair("kws-file", "assets:///WakeUp.bin"),
+//                Pair("app_id", ""),
+//                Pair("api_key", ""),
+//                Pair("secret_key", "")
+            )
         )
+//        wakeUp = smartAssistant.createWakeUp(
+//            WakeUpType.Picovoice,
+//            mapOf(
+//                Pair(
+//                    "keyword_paths",
+//                    listOf(
+//                        "wakeup/picovoice/Hi-Joey_en_android_v2_2_0.ppn",
+//                        "wakeup/picovoice/Hello-Joey_en_android_v2_2_0.ppn"
+//                    ),
+//                ),
+////                Pair("access_key", "")
+//            ),
+//            wakeUpListener
+//        )
 
         asr = smartAssistant.createAsr(
             AsrType.Ali,
@@ -216,6 +230,11 @@ class MainActivity : AppCompatActivity() {
 //                Pair("app_key", ""),
             )
         )
+        asr.setAsrListener(object : AsrListener {
+            override fun onVolumeChanged(volume: Float) {
+                Log.d(TAG, "onVolumeChanged: $volume")
+            }
+        })
 
         chat = smartAssistant.createChat(
             ChatType.ChatGpt,

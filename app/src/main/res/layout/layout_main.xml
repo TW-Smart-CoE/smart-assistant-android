@@ -32,4 +32,18 @@
         android:layout_margin="10dp"
         android:layout_marginTop="50dp"
         android:text="@string/stop_wakeup" />
+    <Button
+        android:id="@+id/btn_start_asr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/start_asr" />
+    <Button
+        android:id="@+id/btn_stop_asr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/stop_asr" />
 </LinearLayout>

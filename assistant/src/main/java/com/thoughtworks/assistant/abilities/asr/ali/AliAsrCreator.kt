@@ -14,6 +14,7 @@ import com.alibaba.idst.nui.INativeNuiCallback
 import com.alibaba.idst.nui.KwsResult
 import com.alibaba.idst.nui.NativeNui
 import com.google.gson.Gson
+import com.thoughtworks.assistant.abilities.asr.AsrListener
 import com.thoughtworks.assistant.abilities.asr.ali.AliAsrConstant.SAMPLE_RATE
 import com.thoughtworks.assistant.abilities.asr.ali.AliAsrConstant.TAG
 import com.thoughtworks.assistant.abilities.asr.ali.AliAsrConstant.WAVE_FRAM_SIZE
@@ -33,6 +34,7 @@ class AliAsrCreator(private val context: Context, private val params: Map<String
     private val vadMode: AtomicBoolean = AtomicBoolean(false)
     private var currentChannel: Channel<AliAsrData>? = null
     private val gson = Gson()
+    private var asrListener: AsrListener? = null
 
     private val nuiCallback = object : INativeNuiCallback {
         override fun onNuiEventCallback(
@@ -126,7 +128,7 @@ class AliAsrCreator(private val context: Context, private val params: Map<String
         }
 
         override fun onNuiAudioRMSChanged(p0: Float) {
-//            Log.d(TAG, "onNuiAudioRMSChanged vol $p0")
+            asrListener?.onVolumeChanged(p0)
         }
 
         override fun onNuiVprEventCallback(p0: Constants.NuiVprEvent?) {
@@ -254,7 +256,7 @@ class AliAsrCreator(private val context: Context, private val params: Map<String
     }
 
     fun stop() {
-        closeCurrentChannel()
+//        closeCurrentChannel()
         nuiInstance.stopDialog()
     }
 
@@ -265,5 +267,9 @@ class AliAsrCreator(private val context: Context, private val params: Map<String
 
     fun release() {
         nuiInstance.release()
+    }
+
+    fun setAsrListener(listener: AsrListener?) {
+        this.asrListener = listener
     }
 }

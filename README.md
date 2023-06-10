@@ -4,7 +4,7 @@ smart-assistant 封装了各云服务厂商提供的 ASR，TTS，WakeUp，ChatGp
 
 目前支持的能力：
 - ASR 语音识别：阿里
-- TTS 语音转文字：阿里
+- TTS 语音转文字：阿里，Google
 - WakeUp 语音唤醒：百度（中文），Picovoice（海外）
 - Chat 智能聊天：ChatGpt
 

@@ -121,6 +121,21 @@ Create a service account key:
 
 将下载到 json 文件中的内容用作创建 Google TTS 时的 credentials。
 
+#### 注意事项
+
+如果使用 Google Tts，需要在 app 模块的 build.gradle 文件中添加以下配置：
+
+```kotlin
+android {
+    //...
+    packagingOptions {
+        pickFirst("META-INF/io.netty.versions.properties")
+        pickFirst("META-INF/DEPENDENCIES")
+        pickFirst("META-INF/INDEX.LIST")
+    }
+}
+```
+
 #### SDK/API Key 配置
 
 创建 TTS 时配置 credentials
@@ -158,7 +173,7 @@ lifecycleScope.launch {
 
 ## Asr 语音识别
 
-### Ali Tts
+### Ali Asr
 
 #### 后台配置
 和 Ali Tts 完全相同，共用一套配置。

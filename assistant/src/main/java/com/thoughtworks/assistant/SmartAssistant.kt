@@ -10,6 +10,7 @@ import com.thoughtworks.assistant.abilities.chat.chatgpt.ChatGpt
 import com.thoughtworks.assistant.abilities.tts.Tts
 import com.thoughtworks.assistant.abilities.tts.TtsType
 import com.thoughtworks.assistant.abilities.tts.ali.AliTts
+import com.thoughtworks.assistant.abilities.tts.google.GoogleTts
 import com.thoughtworks.assistant.abilities.wakeup.WakeUp
 import com.thoughtworks.assistant.abilities.wakeup.WakeUpListener
 import com.thoughtworks.assistant.abilities.wakeup.WakeUpType
@@ -18,10 +19,15 @@ import com.thoughtworks.assistant.abilities.wakeup.picovoice.PicovoiceWakeUp
 
 class SmartAssistant(private val context: Context) {
     fun createTts(ttsType: TtsType = TtsType.Ali, params: Map<String, Any> = emptyMap()): Tts {
-        check(ttsType == TtsType.Ali) {
+        check(ttsType == TtsType.Ali ||
+                ttsType == TtsType.Google) {
             "Not supported type: ${ttsType.name}!"
         }
-        return AliTts(context, params)
+
+        return when (ttsType) {
+            TtsType.Ali -> AliTts(context, params)
+            TtsType.Google -> GoogleTts(context, params)
+        }
     }
 
     fun createWakeUp(

@@ -47,6 +47,9 @@
         <meta-data
             android:name="PICOVOICE_ACCESS_KEY"
             android:value="${PICOVOICE_ACCESS_KEY}" />
+        <meta-data
+            android:name="GOOGLE_CLOUD_API_KEY"
+            android:value="${GOOGLE_CLOUD_API_KEY}" />
     </application>
 
 </manifest>

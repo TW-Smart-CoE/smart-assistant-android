@@ -26,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.io.ByteArrayInputStream
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -140,14 +141,15 @@ class MainActivity : AppCompatActivity() {
     private fun initUI() {
         findViewById<Button>(R.id.btn_play_tts).setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                tts.play("hello world")
+//                tts.play("hello world")
+                tts.play("The early morning sun peaked through the curtains as I opened my eyes. A new day was beginning, full of promise and opportunity. What adventures would today hold? As I got out of bed and stretched, my mind wandered to the various tasks I had to accomplish. Errands to run, work to get done, chores to complete. But there were also more pleasurable things to look forward to, like having coffee with a friend, reading a new book, or getting outside for a walk. The day was a blank slate, filling up each moment little by little. While life can sometimes feel mundane or repetitive, each and every day we are given a fresh start - a chance to renew our sense of wonder and live fully in the present. A hundred tiny opportunities to find meaning, joy, and purpose. The story of this day was mine to create. I smiled and headed downstairs, eager to see how the chapter would unfold. The possibilities made me feel grateful, humble and alive, all at once. ")
                 asr.stopListening()
             }
 
-            lifecycleScope.launch(Dispatchers.IO) {
-                val file = tts.createAudioFile("hello world", "file.pcm")
-                Log.d(TAG, file.absolutePath)
-            }
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                val file = tts.createAudioFile("hello world", "file.pcm")
+//                Log.d(TAG, file.absolutePath)
+//            }
         }
 
         findViewById<Button>(R.id.btn_stop_tts).setOnClickListener {
@@ -183,6 +185,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initSmartAssistant() {
         val smartAssistant = SmartAssistant(this)
+
         tts = smartAssistant.createTts(TtsType.Ali,
             mapOf(
                 Pair("font_name", "siqi"),
@@ -194,6 +197,22 @@ class MainActivity : AppCompatActivity() {
 //                Pair("app_key", "")
             )
         )
+
+//        tts = smartAssistant.createTts(
+//            TtsType.Google,
+//            mapOf(
+//                Pair(
+//                    "credentials", ByteArrayInputStream(
+//                        """
+//                            // your google credentials in json format
+//                        """.toByteArray()
+//                    )
+//                ),
+//                Pair("language_code", "en-US"),
+//                Pair("name", "en-US-Wavenet-F"),
+//                Pair("speaking_rate", 1.0), // Speech speed. Default is 1.0. Range is 0.25 to 4.0.
+//            )
+//        )
 
         wakeUp = smartAssistant.createWakeUp(
             WakeUpType.Baidu,

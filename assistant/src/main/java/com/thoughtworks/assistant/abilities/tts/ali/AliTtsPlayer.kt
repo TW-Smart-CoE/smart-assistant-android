@@ -5,14 +5,14 @@ import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
 
-class AliTtsPlayer {
+class AliTtsPlayer(encode: Int = AudioFormat.ENCODING_PCM_16BIT) {
     var audioTrack: AudioTrack? = null
 
     private val sampleRate = AliTtsInitializer.ttsParams.sampleRate
     private val minBufferSize = AudioTrack.getMinBufferSize(
         sampleRate,
         AudioFormat.CHANNEL_OUT_MONO,
-        AudioFormat.ENCODING_PCM_16BIT
+        encode
     ) * 2
 
     init {

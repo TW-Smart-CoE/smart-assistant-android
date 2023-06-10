@@ -1,7 +1,6 @@
 @file:Suppress("DSL_SCOPE_VIOLATION", "UnstableApiUsage")
 
 import com.thoughtworks.ark.buildlogic.androidLibrary
-import org.gradle.api.tasks.bundling.Jar
 
 plugins {
     alias(libs.plugins.library)
@@ -34,6 +33,11 @@ androidLibrary {
         // baidu libs
         jniLibs.keepDebugSymbols.add("*/*/libvad.dnn.so")
         jniLibs.keepDebugSymbols.add("*/*/libbd_easr_s1_merge_normal_20151216.dat.so")
+
+        // for google tts
+//        pickFirst("META-INF/io.netty.versions.properties")
+//        pickFirst("META-INF/DEPENDENCIES")
+//        pickFirst("META-INF/INDEX.LIST")
     }
 }
 
@@ -69,6 +73,10 @@ dependencies {
 
     // picovoice
     implementation("ai.picovoice:porcupine-android:2.2.0")
+
+    // google
+    implementation("com.google.cloud:google-cloud-texttospeech:2.19.0")
+    implementation("io.grpc:grpc-okhttp:1.55.1")
 
     testImplementation(libs.junit4)
     testImplementation(libs.androidx.junit.ktx)
@@ -108,7 +116,7 @@ configure<PublishingExtension> {
             afterEvaluate {
                 from(components.getByName("devRelease"))
                 groupId = "com.thoughtworks.smart-assistant"
-                version = "0.5.8"
+                version = "0.6.0"
 
                 artifact(tasks["sourceJar"])
             }

@@ -161,7 +161,7 @@ class ChatGpt(
     }
 
     companion object {
-        private const val TAG = "SmartAssistant.ChatGpt"
+        private const val TAG = "SA.ChatGpt"
         private const val ROLE_SYSTEM = "system"
         private const val ROLE_USER = "user"
         private const val ROLE_ASSISTANT = "assistant"

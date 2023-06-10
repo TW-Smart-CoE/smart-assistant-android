@@ -26,7 +26,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation("com.thoughtworks.smart-assistant:assistant:0.5.8")
+    implementation("com.thoughtworks.smart-assistant:assistant:0.6.0")
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation "com.thoughtworks.smart-assistant:assistant:0.5.8"
+    implementation "com.thoughtworks.smart-assistant:assistant:0.6.0"
 }
 ```
 
@@ -97,6 +97,61 @@ lifecycleScope.launch {
 // convert text into audio and save as file:
 lifecycleScope.launch {
     val file = tts.createAudioFile("hello world", "saveFile.pcm")
+    Log.d(TAG, file)
+}
+```
+
+### Google Speech Tts
+
+#### 后台配置
+
+构建 Google Speech TTS 需要 GoogleCredentials，而 GoogleCredentials 不能直接由 Google Cloud的API Key 创建。
+GoogleCredentials 需要一个 service account key。下面是 service account key 的创建流程。
+
+Create a service account key:
+- Go to the [Google Cloud Console](https://console.cloud.google.com/)
+- Select your project.
+- Go to IAM & Admin > Service Accounts.
+- Click on CREATE SERVICE ACCOUNT.
+- Give your service account a name and click CREATE.
+- Under Service account permissions (optional), add roles that you need for your project. For example, if you're using Text-to-Speech, you might add the role roles/cloudtexttospeech.editor.
+- Click CONTINUE and then DONE.
+- Click on the service account that you just created, then on the Keys tab, and then on ADD KEY > Create new key.
+- Select JSON and click CREATE. The JSON key will be downloaded.
+
+将下载到 json 文件中的内容用作创建 Google TTS 时的 credentials。
+
+#### SDK/API Key 配置
+
+创建 TTS 时配置 credentials
+
+#### 示例代码
+
+```kotlin
+ tts = smartAssistant.createTts(
+        TtsType.Google,
+        mapOf(
+            Pair(
+                "credentials", ByteArrayInputStream(
+                    """
+                        // your google credentials in json format
+                    """.toByteArray()
+                )
+            ),
+            Pair("language_code", "en-US"),
+            Pair("name", "en-US-Wavenet-F"),
+            Pair("speaking_rate", 1.0), // Speech speed. Default is 1.0. Range is 0.25 to 4.0.
+        )
+    )
+
+// play a text directly:
+lifecycleScope.launch {
+    tts.play("text")
+}
+
+// convert text into audio and save as file:
+lifecycleScope.launch {
+    val file = tts.createAudioFile("hello world", "saveFile.mp3")
     Log.d(TAG, file)
 }
 ```

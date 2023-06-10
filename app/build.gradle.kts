@@ -34,9 +34,16 @@ androidApplication {
         manifestPlaceholders["BAIDU_IVS_SECRET_KEY"] = System.getenv("BAIDU_IVS_SECRET_KEY") ?: ""
         manifestPlaceholders["OPENAI_API_KEY"] = System.getenv("OPENAI_API_KEY") ?: ""
         manifestPlaceholders["PICOVOICE_ACCESS_KEY"] = System.getenv("PICOVOICE_ACCESS_KEY") ?: ""
+        manifestPlaceholders["GOOGLE_CLOUD_API_KEY"] = System.getenv("GOOGLE_CLOUD_API_KEY") ?: ""
     }
 
     enableCompose()
+
+    packagingOptions {
+        pickFirst("META-INF/io.netty.versions.properties")
+        pickFirst("META-INF/DEPENDENCIES")
+        pickFirst("META-INF/INDEX.LIST")
+    }
 }
 
 dependencies {

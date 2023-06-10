@@ -1,7 +1,7 @@
 package com.thoughtworks.assistant.abilities.wakeup.baidu
 
 object BaiduWakeUpConstant {
-    const val TAG = "SmartAssistant.BaiduWakeUp"
+    const val TAG = "SA.BaiduWakeUp"
 
     // manifest 配置key
     const val META_DATA_API_KEY = "BAIDU_IVS_API_KEY"

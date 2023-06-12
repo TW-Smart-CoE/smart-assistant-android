@@ -26,7 +26,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation("com.thoughtworks.smart-assistant:assistant:0.6.1")
+    implementation("com.thoughtworks.smart-assistant:assistant:0.6.2")
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation "com.thoughtworks.smart-assistant:assistant:0.6.1"
+    implementation "com.thoughtworks.smart-assistant:assistant:0.6.2"
 }
 ```
 
@@ -156,6 +156,7 @@ android {
             Pair("language_code", "en-US"),
             Pair("name", "en-US-Wavenet-F"),
             Pair("speaking_rate", 1.0), // Speech speed. Default is 1.0. Range is 0.25 to 4.0.
+            Pair("volume_gain_db", 0.0), //Volume gain (in dB) of the normal native volume, supported by the specific voice, in the range [-96.0, 16.0]
         )
     )
 

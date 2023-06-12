@@ -116,7 +116,7 @@ configure<PublishingExtension> {
             afterEvaluate {
                 from(components.getByName("devRelease"))
                 groupId = "com.thoughtworks.smart-assistant"
-                version = "0.6.1"
+                version = "0.6.2"
 
                 artifact(tasks["sourceJar"])
             }

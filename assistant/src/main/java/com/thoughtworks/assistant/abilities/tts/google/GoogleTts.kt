@@ -64,6 +64,7 @@ class GoogleTts(val context: Context, val params: Map<String, Any>) : Tts {
                 params["speaking_rate"]?.toString()?.toDouble() ?: 1.0
             )  // Speech speed. Default is 1.0. Range is 0.25 to 4.0.
             .setPitch(0.0)  // Speech pitch. Default is 0.0. Range is -20.0 to 20.0.
+            .setVolumeGainDb(params["volume_gain_db"]?.toString()?.toDouble() ?: 0.0)
             .build()
 
         return try {

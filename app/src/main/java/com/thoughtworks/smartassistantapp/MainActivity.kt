@@ -204,7 +204,7 @@ class MainActivity : AppCompatActivity() {
 //                Pair(
 //                    "credentials", ByteArrayInputStream(
 //                        """
-//                            // your google credentials in json format
+//                            // your google credentials
 //                        """.toByteArray()
 //                    )
 //                ),

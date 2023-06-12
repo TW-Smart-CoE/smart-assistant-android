@@ -12,6 +12,7 @@ import com.google.cloud.texttospeech.v1.TextToSpeechClient
 import com.google.cloud.texttospeech.v1.TextToSpeechSettings
 import com.google.cloud.texttospeech.v1.VoiceSelectionParams
 import com.thoughtworks.assistant.abilities.tts.Tts
+import kotlinx.coroutines.sync.Mutex
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -54,12 +55,14 @@ class GoogleTts(val context: Context, val params: Map<String, Any>) : Tts {
             .setLanguageCode(params["language_code"]?.toString() ?: "en-US")  // Language code
             .setSsmlGender(gender)  // Gender
             .setName(params["name"]?.toString() ?: "en-US-Wavenet-F")  // Specific voice model
-        .build()
+            .build()
 
         // Select the type of audio file you want returned
         val audioConfig = AudioConfig.newBuilder()
             .setAudioEncoding(AudioEncoding.MP3)  // Audio format
-            .setSpeakingRate(params["speaking_rate"]?.toString()?.toDouble() ?: 1.0)  // Speech speed. Default is 1.0. Range is 0.25 to 4.0.
+            .setSpeakingRate(
+                params["speaking_rate"]?.toString()?.toDouble() ?: 1.0
+            )  // Speech speed. Default is 1.0. Range is 0.25 to 4.0.
             .setPitch(0.0)  // Speech pitch. Default is 0.0. Range is -20.0 to 20.0.
             .build()
 
@@ -116,8 +119,24 @@ class GoogleTts(val context: Context, val params: Map<String, Any>) : Tts {
             mediaPlayer.setDataSource(tempFile.absolutePath)
             mediaPlayer.prepare()
             mediaPlayer.start()
+
+            val mutex = Mutex(locked = true)
+            mediaPlayer.setOnCompletionListener {
+                Log.d(TAG, "mediaPlayer onCompletion")
+                mutex.unlock()
+            }
+
+            mediaPlayer.setOnErrorListener { _, _, _ ->
+                Log.e(TAG, "mediaPlayer onError")
+                mutex.unlock()
+                return@setOnErrorListener true
+            }
+
+            mutex.lock()
+            Log.d(TAG, "Tts ends")
         } catch (e: Exception) {
             e.message?.let { Log.e(TAG, it) }
+            Log.e(TAG, "play audio end error")
         }
     }
 

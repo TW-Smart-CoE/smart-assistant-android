@@ -4,6 +4,7 @@ import android.content.Context
 import com.thoughtworks.assistant.abilities.asr.Asr
 import com.thoughtworks.assistant.abilities.asr.AsrType
 import com.thoughtworks.assistant.abilities.asr.ali.AliAsr
+import com.thoughtworks.assistant.abilities.asr.baidu.BaiduAsr
 import com.thoughtworks.assistant.abilities.chat.Chat
 import com.thoughtworks.assistant.abilities.chat.ChatType
 import com.thoughtworks.assistant.abilities.chat.chatgpt.ChatGpt
@@ -19,8 +20,10 @@ import com.thoughtworks.assistant.abilities.wakeup.picovoice.PicovoiceWakeUp
 
 class SmartAssistant(private val context: Context) {
     fun createTts(ttsType: TtsType = TtsType.Ali, params: Map<String, Any> = emptyMap()): Tts {
-        check(ttsType == TtsType.Ali ||
-                ttsType == TtsType.Google) {
+        check(
+            ttsType == TtsType.Ali ||
+                    ttsType == TtsType.Google
+        ) {
             "Not supported type: ${ttsType.name}!"
         }
 
@@ -49,10 +52,13 @@ class SmartAssistant(private val context: Context) {
     }
 
     fun createAsr(asrType: AsrType = AsrType.Ali, params: Map<String, Any> = emptyMap()): Asr {
-        check(asrType == AsrType.Ali) {
+        check(asrType == AsrType.Ali || asrType == AsrType.BaiDu) {
             "Not supported type: ${asrType.name}!"
         }
-        return AliAsr(context, params)
+        return when (asrType) {
+            AsrType.Ali -> AliAsr(context, params)
+            AsrType.BaiDu -> BaiduAsr(context, params)
+        }
     }
 
     fun createChat(

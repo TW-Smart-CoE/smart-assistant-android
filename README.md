@@ -3,7 +3,7 @@
 smart-assistant 封装了各云服务厂商提供的 ASR，TTS，WakeUp，ChatGpt 等智能语音交互服务 SDK。给开发者提供简单便捷的使用接口，无需关注复杂的 SDK 集成和适配。
 
 目前支持的能力：
-- ASR 语音识别：阿里
+- ASR 语音识别：阿里,百度
 - TTS 语音转文字：阿里，Google
 - WakeUp 语音唤醒：百度（中文），Picovoice（海外）
 - Chat 智能聊天：ChatGpt
@@ -26,7 +26,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation("com.thoughtworks.smart-assistant:assistant:0.6.2")
+    implementation("com.thoughtworks.smart-assistant:assistant:0.7.0")
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation "com.thoughtworks.smart-assistant:assistant:0.6.2"
+    implementation "com.thoughtworks.smart-assistant:assistant:0.7.0"
 }
 ```
 
@@ -231,7 +231,54 @@ lifecycleScope.launch {
     asr.stopListening()
 }
 ```
+### Baidu Asr
 
+#### 后台配置 
+和 Baidu Wakeup 完全相同，共用一套配置。
+
+#### 注意事项
+- 动态请求 android.Manifest.permission.RECORD_AUDIO 权限。
+
+#### SDK/API Key 配置
+百度语音识别库同时支持WakeUp和Asr，配置和百度WakeUp 完全相同，共用一套配置。
+
+```xml
+<meta-data
+    android:name="BAIDU_IVS_APP_ID"
+    android:value="\${BAIDU_IVS_APP_ID}" />
+<meta-data
+android:name="BAIDU_IVS_API_KEY"
+android:value="${BAIDU_IVS_API_KEY}" />
+<meta-data
+android:name="BAIDU_IVS_SECRET_KEY"
+android:value="${BAIDU_IVS_SECRET_KEY}" />
+```
+这里注意，因为 BAIDU_IVS_APP_ID 是个 Int 类型的数字，所以需要在前面加一个 "\\" 符号，否则在代码中取出 value 时会因数据类型不对而报错。
+
+#### 示例代码
+
+```kotlin
+val smartAssistant = SmartAssistant(this)
+val asr = smartAssistant.createAsr(
+    AsrType.Baidu,
+    mapOf(
+        // Pair("app_id", ""),  // 优先使用这里的 app_id。如果没有，使用 AndroidManifest.xml 中的 BAIDU_IVS_APP_ID。
+        // Pair("api_key", ""),  // 优先使用这里的 api_key。如果没有，使用 AndroidManifest.xml 中的 BAIDU_IVS_API_KEY。
+        // Pair("secret_key", ""),  // 优先使用这里的 secret_key。如果没有，使用 AndroidManifest.xml 中的 BAIDU_IVS_SECRET_KEY。
+    )
+)
+
+// start asr
+lifecycleScope.launch {
+    // text 为百度Asr识别出来的最终/最佳文本
+    val text = asr.startListening()
+}
+
+// stop asr
+lifecycleScope.launch {
+    asr.stopListening()
+}
+```
 ## WakeUp 语音唤醒
 
 ### Baidu WakeUp

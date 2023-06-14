@@ -165,7 +165,7 @@ class ChatGpt(
         private const val ROLE_SYSTEM = "system"
         private const val ROLE_USER = "user"
         private const val ROLE_ASSISTANT = "assistant"
-        private const val DEFAULT_MODEL = "gpt-3.5-turbo-0301"
+        private const val DEFAULT_MODEL = "gpt-3.5-turbo-0613"
         private const val META_OPENAI_API_KEY = "OPENAI_API_KEY"
     }
 }

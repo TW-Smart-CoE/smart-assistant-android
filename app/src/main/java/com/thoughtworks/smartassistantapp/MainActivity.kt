@@ -260,7 +260,7 @@ class MainActivity : AppCompatActivity() {
             ChatType.ChatGpt,
             mapOf(
                 Pair("base_url", "https://api.openai.com"),
-                Pair("model", "gpt-3.5-turbo-0301"),
+                Pair("model", "gpt-3.5-turbo-0613"),
                 Pair("temperature", 1.0f),
                 Pair("max_history_len", 20),
 //                Pair("api_key", ""),

@@ -437,7 +437,7 @@ val chat = smartAssistant.createChat(
     ChatType.ChatGpt,
     mapOf(
         Pair("base_url", "https://api.openai.com"),  // OpenAI API 地址。默认值为 https://api.openai.com。
-        Pair("model", "gpt-3.5-turbo-0301"),  // 模型名称。默认为 gpt-3.5-turbo-0301。
+        Pair("model", "gpt-3.5-turbo-0613"),  // 模型名称。默认为 gpt-3.5-turbo-0613。
         Pair("temperature", 1.0f),  // 生成文本的多样性。值越大，生成的文本越多样化。默认为 1.0f。
         Pair("max_history_len", 50), // 最大聊天历史记录长度。默认为 50。
         // Pair("api_key", ""),  // 优先使用这里的 api_key。如果没有，使用 AndroidManifest.xml 中的 OPENAI_API_KEY。

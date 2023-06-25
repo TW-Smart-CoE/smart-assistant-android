@@ -73,7 +73,12 @@ object AliTtsInitializer {
                     accessToken.apply()
 
                     val expireTime = accessToken.expireTime
-                    val token = accessToken.token
+                    val token = accessToken.token ?: ""
+
+                    if (token.isEmpty()) {
+                        Log.e(TAG, "Get access token failed!")
+                    }
+
                     spUtils.saveLong(SpUtils.SP_ALI_EXPIRE_TIME_KEY, expireTime)
                     spUtils.saveStr(SpUtils.SP_ALI_ACCESS_TOKEN_KEY, token)
 

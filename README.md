@@ -3,8 +3,8 @@
 smart-assistant 封装了各云服务厂商提供的 ASR，TTS，WakeUp，ChatGpt 等智能语音交互服务 SDK。给开发者提供简单便捷的使用接口，无需关注复杂的 SDK 集成和适配。
 
 目前支持的能力：
-- ASR 语音识别：阿里,百度
-- TTS 语音转文字：阿里，Google
+- ASR 语音识别：阿里，百度
+- TTS 语音转文字：阿里（中文），Google（海外）
 - WakeUp 语音唤醒：百度（中文），Picovoice（海外）
 - Chat 智能聊天：ChatGpt
 
@@ -26,7 +26,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation("com.thoughtworks.smart-assistant:assistant:0.7.1")
+    implementation("com.thoughtworks.smart-assistant:assistant:0.7.2")
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation "com.thoughtworks.smart-assistant:assistant:0.7.1"
+    implementation "com.thoughtworks.smart-assistant:assistant:0.7.2"
 }
 ```
 

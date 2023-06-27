@@ -47,13 +47,13 @@ object AliTtsInitializer {
     }
 
     private suspend fun createConfig(context: Context): AliTtsConfig {
-        val accessKey = params["access_key"]?.toString() ?: context.getManifestMetaData(META_DATA_ACCESS_KEY)
-        val accessKeySecret = params["access_key_secret"]?.toString() ?: context.getManifestMetaData(META_DATA_ACCESS_KEY_SECRET)
-        val appKey = params["app_key"]?.toString() ?: context.getManifestMetaData(META_DATA_APP_KEY)
+        val accessKey = params["access_key"]?.toString() ?: context.getManifestMetaData(META_DATA_ACCESS_KEY) ?: ""
+        val accessKeySecret = params["access_key_secret"]?.toString() ?: context.getManifestMetaData(META_DATA_ACCESS_KEY_SECRET) ?: ""
+        val appKey = params["app_key"]?.toString() ?: context.getManifestMetaData(META_DATA_APP_KEY) ?: ""
 
         val deviceId = context.getDeviceId()
         val workspace = CommonUtils.getModelPath(context)
-        val token = getToken(accessKey, accessKeySecret)
+        val token = params["token"]?.toString() ?: getToken(accessKey, accessKeySecret)
         return AliTtsConfig(accessKey, accessKeySecret, appKey, deviceId, workspace, token)
     }
 

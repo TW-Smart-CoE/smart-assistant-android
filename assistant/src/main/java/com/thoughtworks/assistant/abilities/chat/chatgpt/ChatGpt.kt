@@ -16,6 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
+import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class ChatGpt(
@@ -56,6 +57,18 @@ class ChatGpt(
             return@addInterceptor chain.proceed(builder.build())
         }
         .addInterceptor(logging)
+        .addInterceptor { chain ->
+            val response = chain.proceed(chain.request())
+
+            if (!response.isSuccessful) {
+                // Throw non-exception-typed error manually based on response code
+                Log.e(TAG, "ERROR - code: ${response.code} with message: ${response.message}")
+                when (response.code) {
+                    INTERNAL_SERVER_ERROR -> throw InternalServerException(response.message)
+                }
+            }
+            return@addInterceptor response
+        }
         .build()
 
     private val retrofit: Retrofit = Retrofit.Builder()
@@ -160,6 +173,8 @@ class ChatGpt(
         Log.d(TAG, "release")
     }
 
+    internal class InternalServerException(message: String) : IOException(message)
+
     companion object {
         private const val TAG = "SA.ChatGpt"
         private const val ROLE_SYSTEM = "system"
@@ -167,5 +182,7 @@ class ChatGpt(
         private const val ROLE_ASSISTANT = "assistant"
         private const val DEFAULT_MODEL = "gpt-3.5-turbo-0613"
         private const val META_OPENAI_API_KEY = "OPENAI_API_KEY"
+
+        const val INTERNAL_SERVER_ERROR = 500
     }
 }

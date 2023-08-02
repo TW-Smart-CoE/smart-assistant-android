@@ -16,6 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.POST
+import retrofit2.http.Url
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -24,8 +25,8 @@ class ChatGpt(
     params: Map<String, Any> = emptyMap(),
 ) : Chat {
     interface ChatGptService {
-        @POST("v1/chat/completions")
-        suspend fun chat(@Body request: RequestBody): ChatGptResponse
+        @POST
+        suspend fun chat(@Url url: String, @Body request: RequestBody): ChatGptResponse
     }
 
     private var baseUrl: String = (params["base_url"] ?: "https://api.openai.com/") as String
@@ -107,7 +108,9 @@ class ChatGpt(
 
         val resMessage: GptMessage
         try {
-            resMessage = chatGptService.chat(requestBody).choices[0].message
+            val url = "$baseUrl$GPT_POST_PATH"
+            Log.d(TAG, "request url: $url")
+            resMessage = chatGptService.chat(url, requestBody).choices[0].message
         } catch (e: Exception) {
             e.message?.let { Log.e(TAG, it) }
             return ""
@@ -182,6 +185,8 @@ class ChatGpt(
         private const val ROLE_ASSISTANT = "assistant"
         private const val DEFAULT_MODEL = "gpt-3.5-turbo-0613"
         private const val META_OPENAI_API_KEY = "OPENAI_API_KEY"
+
+        private const val GPT_POST_PATH = "v1/chat/completions"
 
         const val INTERNAL_SERVER_ERROR = 500
     }

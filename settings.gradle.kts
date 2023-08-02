@@ -38,12 +38,14 @@ pluginManagement {
             }
             println("Build logic init success")
         } else {
-            println("Update build logic...")
-            val result = execCmd(buildLogicPath, "git pull")
-            if (result.isNotEmpty()) {
-                println(result)
-            }
-            println("Update build logic success")
+//            Fix BuildLogic version to avoid Sync Failure brought by auto-update
+
+//            println("Update build logic...")
+//            val result = execCmd(buildLogicPath, "git pull")
+//            if (result.isNotEmpty()) {
+//                println(result)
+//            }
+//            println("Update build logic success")
         }
     }
 

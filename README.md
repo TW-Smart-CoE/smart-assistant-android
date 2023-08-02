@@ -26,7 +26,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation("com.thoughtworks.smart-assistant:assistant:0.7.3")
+    implementation("com.thoughtworks.smart-assistant:assistant:0.7.4")
 }
 ```
 
@@ -46,7 +46,7 @@ repositories {
 
 // add dependency
 dependencies {
-    implementation "com.thoughtworks.smart-assistant:assistant:0.7.3"
+    implementation "com.thoughtworks.smart-assistant:assistant:0.7.4"
 }
 ```
 

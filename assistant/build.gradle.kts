@@ -54,7 +54,7 @@ dependencies {
 
     // ali libs
     implementation("com.aliyun:aliyun-java-sdk-core:3.7.1")
-    implementation("com.alibaba.nls:nls-sdk-common:2.1.6") {
+    implementation("com.alibaba.nls:nls-sdk-common:2.2.10") {
         exclude(group = "com.alibaba", module = "fastjson")
         exclude(group = "io.netty", module = "netty-handler")
         exclude(group = "io.netty", module = "netty-codec")

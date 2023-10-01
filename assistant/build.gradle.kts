@@ -53,7 +53,7 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
     // ali libs
-    implementation("com.aliyun:aliyun-java-sdk-core:3.7.1")
+    implementation("com.aliyun:aliyun-java-sdk-core:4.6.4")
     implementation("com.alibaba.nls:nls-sdk-common:2.1.6") {
         exclude(group = "com.alibaba", module = "fastjson")
         exclude(group = "io.netty", module = "netty-handler")

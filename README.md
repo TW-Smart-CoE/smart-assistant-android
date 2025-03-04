@@ -1,5 +1,7 @@
 # smart-assistant
 
+This repo is deprecated, please move to [voice-assistant-android](https://github.com/TW-Smart-CoE/voice-assistant-android)
+
 smart-assistant 封装了各云服务厂商提供的 ASR，TTS，WakeUp，ChatGpt 等智能语音交互服务 SDK。给开发者提供简单便捷的使用接口，无需关注复杂的 SDK 集成和适配。
 
 目前支持的能力：

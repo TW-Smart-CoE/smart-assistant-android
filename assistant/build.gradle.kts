@@ -72,7 +72,7 @@ dependencies {
     implementation("com.thoughtworks.smart-assistant:nuisdk:0.1.0")
 
     // picovoice
-    implementation("ai.picovoice:porcupine-android:2.2.0")
+    implementation("ai.picovoice:porcupine-android:2.2.2")
 
     // google
     implementation("com.google.cloud:google-cloud-texttospeech:2.19.0")

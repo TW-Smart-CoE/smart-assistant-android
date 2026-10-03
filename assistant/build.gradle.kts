@@ -66,7 +66,7 @@ dependencies {
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     implementation("com.sun.xml.bind:jaxb-core:2.3.0")
     implementation("com.sun.xml.bind:jaxb-impl:2.3.0")
-    implementation("xerces:xercesImpl:2.12.0")
+    implementation("xerces:xercesImpl:2.12.2")
 
     implementation("com.alibaba:fastjson:1.1.46.android")
     implementation("com.thoughtworks.smart-assistant:nuisdk:0.1.0")
